@@ -18,6 +18,8 @@ import SettingsPage from './pages/settings.jsx'
 import TeamManagementPage from './pages/teamMangement.jsx'
 import SupplierPortalPage from './pages/supplies.jsx'
 import NavBar from './pages/navBar.jsx'
+import ContactPage from './pages/contact.jsx'
+import FAQsPage from './pages/faqs.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -82,6 +84,14 @@ const router = createBrowserRouter([
       {
         path: "/navbar",
         element: <NavBar />,
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />,
+      },
+      {
+        path: "/faqs",
+        element: <FAQsPage />,
       }
     ]
   },
