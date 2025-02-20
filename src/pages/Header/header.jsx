@@ -22,7 +22,7 @@ const Header = () => {
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>Bhoomi</Link>
         </div>
           <div className="hidden md:flex gap-8">
-            <Link to="/home" className="text-lg text-[#2D3B2D] hover:text-[#D4B982] transition-colors duration-300">
+            <Link to="/login" className="text-lg text-[#2D3B2D] hover:text-[#D4B982] transition-colors duration-300">
               Home
             </Link>
             <Link to="/login" className="text-lg text-[#2D3B2D] hover:text-[#D4B982] transition-colors duration-300">

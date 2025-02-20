@@ -7,6 +7,17 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
+
+  // User roles and their corresponding home pages
+  const userRoles = {
+    'Admin': '/admin/home',
+    'Product Manager': '/product/stock-overview',
+    'Visitor': '/visitor/home',
+    'Gardener': '/gardener/home',
+    'Plant Expert': '/plant/home',
+    'Designer': '/designer/home'
+  };
 
   // Brand color palette
   const colors = {
@@ -22,13 +33,19 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!selectedRole) {
+      setError('Please select a user role');
+      return;
+    }
+    
     setError('');
     setIsLoading(true);
 
     try {
       // Simulated API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Login attempted', { email, password });
+      // Navigate to the corresponding home page
+      window.location.href = userRoles[selectedRole];
     } catch {
       setError('Invalid credentials. Please try again.');
     } finally {
@@ -37,6 +54,10 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
+    if (!selectedRole) {
+      setError('Please select a user role');
+      return;
+    }
     // Implement Google login logic here
     console.log('Google Login initiated');
   };
@@ -123,6 +144,36 @@ const LoginPage = () => {
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-1">
             <label 
+              htmlFor="userRole" 
+              className="block text-sm font-medium"
+              style={{ color: colors.primary }}
+            >
+              Select User Role
+            </label>
+            <select
+              id="userRole"
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg transition-all"
+              style={{
+                border: `2px solid ${colors.accent}`,
+                backgroundColor: colors.background,
+                color: colors.primary,
+                outline: 'none'
+              }}
+            >
+              <option value="">Select a role</option>
+              {Object.keys(userRoles).map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <label 
               htmlFor="email" 
               className="block text-sm font-medium"
               style={{ color: colors.primary }}
@@ -134,7 +185,7 @@ const LoginPage = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
+              // required
               autoComplete="email"
               placeholder="name@example.com"
               className="w-full px-4 py-3 rounded-lg transition-all"
@@ -170,7 +221,7 @@ const LoginPage = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                // required
                 autoComplete="current-password"
                 placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-lg transition-all"

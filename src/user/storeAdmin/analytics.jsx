@@ -6,6 +6,8 @@ import { FiHome, FiUsers, FiBox, FiShoppingBag, FiMessageSquare, FiBarChart2, Fi
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
          ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
+import AdminSidebar from './navBar';
+
 const AnalyticsPage = () => {
   const colors = {
     primary: '#2D3B2D',
@@ -16,44 +18,6 @@ const AnalyticsPage = () => {
     deep: '#1B4D3E',
     highlight: '#F3E5AB'
   };
-
-  const navItems = [
-    { to: '/home', icon: <FiHome />, label: 'Dashboard' },
-    { to: '/admin/users', icon: <FiUsers />, label: 'Users' },
-    { to: '/admin/products', icon: <FiBox />, label: 'Products' },
-    { to: '/admin/orders', icon: <FiShoppingBag />, label: 'Orders' },
-    { to: '/admin/community', icon: <FiMessageSquare />, label: 'Community' },
-    { to: '/admin/analytics', icon: <FiBarChart2 />, label: 'Analytics' },
-    { to: '/admin/messages', icon: <FiMail />, label: 'Messages' },
-    { to: '/admin/settings', icon: <FiTool />, label: 'Settings' },
-    { to: '/admin/team', icon: <FiUsers />, label: 'Team Management' },
-    { to: '/admin/supplies', icon: <FiTool />, label: 'Supplies' }
-  ];
-
-  const location = useLocation();
-
-  // NavItem component renders each individual link with an active style.
-  const NavItem = ({ to, icon, label }) => {
-    const isActive = location.pathname === to;
-    return (
-      <motion.li
-        whileHover={{ x: 5 }}
-        className={`flex items-center p-3 rounded-lg cursor-pointer transition-colors ${
-          isActive ? 'bg-white shadow' : 'hover:bg-white/50'
-        }`}
-      >
-        <Link to={to} className="flex items-center w-full">
-          <span className="mr-3" style={{ color: isActive ? colors.tertiary : colors.primary }}>
-            {icon}
-          </span>
-          <span className={`font-medium ${isActive ? 'text-gray-800' : 'text-gray-600'}`}>
-            {label}
-          </span>
-        </Link>
-      </motion.li>
-    );
-  };
-
 
   // Sample data for charts
   const revenueData = [
@@ -77,21 +41,7 @@ const AnalyticsPage = () => {
     <div className="min-h-screen">
       <div className="flex" style={{ backgroundColor: colors.background }}>
         {/* Sidebar Navigation */}
-        <motion.nav 
-          className="w-64 p-6 border-r-2 overflow-y-auto h-screen sticky top-0"
-          style={{ backgroundColor: colors.background, borderColor: colors.accent }}
-          initial={{ x: -20 }}
-          animate={{ x: 0 }}
-        >
-          <div className="mb-8">
-          </div>
-          <ul className="space-y-3">
-            {navItems.map((item, index) => (
-              <NavItem key={index} to={item.to} icon={item.icon} label={item.label} />
-            ))}
-
-          </ul>
-        </motion.nav>
+        <AdminSidebar />
 
         {/* Main Content */}
         <div className="flex-1 p-8">

@@ -20,7 +20,7 @@ const AdminSidebar = () => {
 
   // Navigation items with their respective paths, icons, and labels.
   const navItems = [
-    { to: '/home', icon: <FiHome />, label: 'Dashboard' },
+    { to: '/admin/home', icon: <FiHome />, label: 'Dashboard' },
     { to: '/admin/users', icon: <FiUsers />, label: 'Users' },
     { to: '/admin/products', icon: <FiBox />, label: 'Products' },
     { to: '/admin/orders', icon: <FiShoppingBag />, label: 'Orders' },
