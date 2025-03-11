@@ -1,4 +1,4 @@
-import Designer from "./user/designer/desiger";
+import Designer from "./user/designer/designer";
 import Gardener from "./user/gardener/Gardener";
 import PlantExpert from "./user/plantExpert/PlantExpert";
 import ProductManager from "./user/productManager/ProductManager";
