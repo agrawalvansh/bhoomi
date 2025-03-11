@@ -8,7 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 // import { addToCart, selectCartItems } from '../redux/slices/cartSlice';
 // import NavBar from '../pages/NavBar/NavBar';
-import { Button } from '../../components/ui/Button';
+import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
