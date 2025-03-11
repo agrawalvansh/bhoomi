@@ -54,7 +54,7 @@ const Header = () => {
                   className="flex items-center hover:opacity-80 transition-opacity"
                 >
                   <img 
-                    src="/logo.png" 
+                    src="/imgs/logo/Bhoomi Logo.png" 
                     className="h-8 w-8 mr-2"
                   />
                   Bhoomi

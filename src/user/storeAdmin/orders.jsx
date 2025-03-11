@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { 
   FiHome, FiUsers, FiBox, FiShoppingBag, FiMessageSquare, 
   FiBarChart2, FiMail, FiTool, FiEye, FiSearch, FiFilter, 
@@ -14,6 +16,84 @@ const OrdersPage = () => {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [activeStatus, setActiveStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const ordersRef = collection(db, 'orders');
+        
+        const unsubscribe = onSnapshot(ordersRef, (snapshot) => {
+          const ordersData = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          setOrders(ordersData);
+          setLoading(false);
+        }, (error) => {
+          console.error("Error fetching orders: ", error);
+          setError(error.message);
+          setLoading(false);
+        });
+
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error setting up orders listener: ", error);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [db]);
+
+  const calculateStatusCounts = () => {
+    const counts = {
+      'new': 0,
+      'in-progress': 0,
+      'scheduled': 0,
+      'completed': 0,
+      'cancelled': 0
+    };
+
+    orders.forEach(order => {
+      const status = order.status.toLowerCase().replace(' ', '-');
+      if (counts.hasOwnProperty(status)) {
+        counts[status]++;
+      }
+    });
+
+    return orderStatuses.map(status => ({
+      ...status,
+      count: counts[status.id] || 0
+    }));
+  };
+
+  const currentOrderStatuses = calculateStatusCounts();
+
+  const statusCounts = calculateStatusCounts();
+
+  const orderStatuses = [
+    { id: 'new', name: 'New Orders', count: statusCounts['new'], color: 'blue' },
+    { id: 'in-progress', name: 'In Progress', count: statusCounts['in-progress'], color: 'yellow' },
+    { id: 'scheduled', name: 'Scheduled', count: statusCounts['scheduled'], color: 'purple' },
+    { id: 'completed', name: 'Completed', count: statusCounts['completed'], color: 'green' },
+    { id: 'cancelled', name: 'Cancelled', count: statusCounts['cancelled'], color: 'red' }
+  ];
 
   const colors = {
     primary: '#2D3B2D',
@@ -25,60 +105,6 @@ const OrdersPage = () => {
     highlight: '#F3E5AB'
   };
 
-  const orderStatuses = [
-    { id: 'new', name: 'New Orders', count: 12, color: 'blue' },
-    { id: 'in-progress', name: 'In Progress', count: 8, color: 'yellow' },
-    { id: 'scheduled', name: 'Scheduled', count: 15, color: 'purple' },
-    { id: 'completed', name: 'Completed', count: 45, color: 'green' },
-    { id: 'cancelled', name: 'Cancelled', count: 3, color: 'red' }
-  ];
-
-  const orders = [
-    {
-      id: "ORD001",
-      customer: {
-        name: "John Smith",
-        email: "john@example.com",
-        phone: "+1 234-567-8900"
-      },
-      status: "New Orders",
-      items: [
-        { name: "Snake Plant", quantity: 2, price: 29.99 },
-        { name: "Ceramic Pot - Large", quantity: 1, price: 34.99 }
-      ],
-      total: 94.97,
-      deliveryAddress: "123 Garden Street, Springfield, IL",
-      installationRequired: true,
-      paymentStatus: "Paid",
-      assignedTeam: "Team A",
-      scheduledDate: "2024-02-15",
-      specialInstructions: "Please deliver before noon",
-      orderDate: "2024-02-01"
-    },
-    {
-      id: "ORD002",
-      customer: {
-        name: "Sarah Johnson",
-        email: "sarah@example.com",
-        phone: "+1 234-567-8901"
-      },
-      status: "In Progress",
-      items: [
-        { name: "DIY Garden Kit", quantity: 1, price: 49.99 },
-        { name: "Fertilizer Pack", quantity: 2, price: 15.99 }
-      ],
-      total: 81.97,
-      deliveryAddress: "456 Park Avenue, Springfield, IL",
-      installationRequired: false,
-      paymentStatus: "Pending",
-      assignedTeam: "Team B",
-      scheduledDate: "2024-02-16",
-      specialInstructions: "Leave at front door",
-      orderDate: "2024-02-02"
-    }
-  ];
-
-  
   const getStatusIcon = (status) => {
     switch(status) {
       case 'New Orders': return <FiShoppingBag />;
@@ -267,20 +293,16 @@ const OrdersPage = () => {
     </div>
   );
 
- 
   return (
     <div className="flex" style={{ backgroundColor: colors.background }}>
-      {/* Sidebar Navigation */}
       <AdminSidebar />
-
-      {/* Main Content */}
       <div className="flex-1 p-8 overflow-y-auto">
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-6" style={{ color: colors.deep }}>Orders</h2>
 
           {/* Order Status Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-            {orderStatuses.map((status) => (
+            {currentOrderStatuses.map((status) => (
               <button
                 key={status.id}
                 className={`p-4 rounded-lg bg-white shadow-sm hover:shadow transition-shadow ${
@@ -331,66 +353,72 @@ const OrdersPage = () => {
           <div className="bg-white rounded-lg shadow">
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-4">Order Management</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Order ID</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Customer</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Total</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Date</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Delivery</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {orders
-                      .filter(order => 
-                        order.customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        order.id.toLowerCase().includes(searchQuery.toLowerCase())
-                      )
-                      .map((order) => (
-                        <tr key={order.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 text-sm">{order.id}</td>
-                          <td className="px-4 py-3">
-                            <div>
-                              <div className="font-medium text-sm">{order.customer.name}</div>
-                              <div className="text-xs text-gray-500">{order.customer.email}</div>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <span className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 w-fit ${getStatusColor(order.status)}`}>
-                              {getStatusIcon(order.status)}
-                              {order.status}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-sm">${order.total.toFixed(2)}</td>
-                          <td className="px-4 py-3 text-sm">{order.orderDate}</td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-1 text-sm">
-                              <FiMapPin className="text-gray-400" />
-                              <span className="truncate max-w-[200px]">{order.deliveryAddress}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex gap-2">
-                              <button
-                                className="p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-900"
-                                onClick={() => {
-                                  setSelectedOrder(order);
-                                  setShowOrderDetails(true);
-                                }}
-                              >
-                                <FiEye className="h-4 w-4" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+              {loading ? (
+                <div className="text-center py-4">Loading orders...</div>
+              ) : error ? (
+                <div className="text-center py-4 text-red-600">{error}</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Order ID</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Customer</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Total</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Date</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Delivery</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {orders
+                        .filter(order => 
+                          order.customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          order.id.toLowerCase().includes(searchQuery.toLowerCase())
+                        )
+                        .map((order) => (
+                          <tr key={order.id} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 text-sm">{order.id}</td>
+                            <td className="px-4 py-3">
+                              <div>
+                                <div className="font-medium text-sm">{order.customer.name}</div>
+                                <div className="text-xs text-gray-500">{order.customer.email}</div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`px-2 py-1 rounded-full text-xs flex items-center gap-1 w-fit ${getStatusColor(order.status)}`}>
+                                {getStatusIcon(order.status)}
+                                {order.status}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-sm">${order.total.toFixed(2)}</td>
+                            <td className="px-4 py-3 text-sm">{order.orderDate}</td>
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-1 text-sm">
+                                <FiMapPin className="text-gray-400" />
+                                <span className="truncate max-w-[200px]">{order.deliveryAddress}</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="flex gap-2">
+                                <button
+                                  className="p-1 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-900"
+                                  onClick={() => {
+                                    setSelectedOrder(order);
+                                    setShowOrderDetails(true);
+                                  }}
+                                >
+                                  <FiEye className="h-4 w-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         </div>
