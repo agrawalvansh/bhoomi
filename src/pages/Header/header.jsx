@@ -39,7 +39,7 @@ function NavBar() {
             <img 
               src="/imgs/logo/Bhoomi Logo.png" 
               alt="Bhoomi" 
-              className="h-12"
+              className="px-2 h-12"
               style={{ color: colors.deep }}
             />
           </Link>

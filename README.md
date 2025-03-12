@@ -87,45 +87,6 @@ To preview the production build:
 npm run preview
 ```
 
-## 🎨 Project Structure
-
-```
-bhoomiAdminInterface/
-├── src/
-│   ├── user/
-│   │   └── storeAdmin/
-│   │       ├── messages.jsx
-│   │       ├── navBar.jsx
-│   │       ├── orders.jsx
-│   │       ├── products.jsx
-│   │       ├── settings.jsx
-│   │       ├── supplies.jsx
-│   │       ├── teamManagement.jsx
-│   │       └── user.jsx
-│   ├── components/
-│   ├── store/
-│   ├── hooks/
-│   ├── utils/
-│   └── App.jsx
-├── public/
-└── package.json
-```
-
-## 🔧 Configuration
-
-The project uses several configuration files:
-- `vite.config.js` - Vite configuration
-- `tailwind.config.js` - Tailwind CSS configuration
-- `package.json` - Project dependencies and scripts
-- `.eslintrc.js` - ESLint configuration
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
