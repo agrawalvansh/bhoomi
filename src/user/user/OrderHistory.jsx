@@ -92,7 +92,10 @@ const OrderHistory = () => {
 
   // Render product orders
   const renderOrders = () => {
-    if (orders.length === 0) {
+    // Filter out service bookings from orders
+    const productOrders = orders.filter(order => !order.service);
+    
+    if (productOrders.length === 0) {
       return (
         <motion.div 
           initial={{ opacity: 0 }}
@@ -120,7 +123,7 @@ const OrderHistory = () => {
         animate={{ opacity: 1 }}
         className="space-y-4"
       >
-        {orders.map((order) => (
+        {productOrders.map((order) => (
           <motion.div 
             key={order.id}
             initial={{ y: 20, opacity: 0 }}
@@ -212,7 +215,13 @@ const OrderHistory = () => {
 
   // Render service bookings
   const renderServiceBookings = () => {
-    if (serviceBookings.length === 0) {
+    // Combine service bookings from both arrays
+    const allServiceBookings = [
+      ...serviceBookings,
+      ...orders.filter(order => order.service) // Include orders that are actually service bookings
+    ];
+    
+    if (allServiceBookings.length === 0) {
       return (
         <motion.div 
           initial={{ opacity: 0 }}
@@ -240,7 +249,7 @@ const OrderHistory = () => {
         animate={{ opacity: 1 }}
         className="space-y-4"
       >
-        {serviceBookings.map((booking) => (
+        {allServiceBookings.map((booking) => (
           <motion.div 
             key={booking.id}
             initial={{ y: 20, opacity: 0 }}
@@ -277,7 +286,11 @@ const OrderHistory = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-500">Service Type</p>
-                  <p className="font-medium" style={{ color: colors.primary }}>{booking.service.type}</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>
+                    {booking.service.type === 'gardening' ? 'Gardening' : 
+                     booking.service.type === 'setup' ? 'Garden Setup' : 
+                     booking.service.type || 'Standard Service'}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Time Slot</p>
