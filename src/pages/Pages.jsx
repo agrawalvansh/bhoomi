@@ -5,7 +5,6 @@ import SignupPage from './signup';
 import ContactPage from './contact';
 import FAQPage from './faqs';
 import Default from './default';
-import Header from './Header/header';
 import Footer from './Footer/footer';
 import ScrollToTop from './scrollToTop';
 import AboutPage from './about';
@@ -16,9 +15,9 @@ const Pages = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/contact-us" element={<ContactPage />} />
         <Route path="/faqs" element={<FAQPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about-us" element={<AboutPage />} />
         {/* Handle 404 and unknown routes */}
         <Route path="*" element={<Default />} />
       </Routes>
@@ -35,7 +34,6 @@ export {
   ContactPage,
   FAQPage,
   Default,
-  Header,
   Footer,
   ScrollToTop
 };

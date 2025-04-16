@@ -1,25 +1,17 @@
 import React from 'react';
-import BannerCarousel from './BannerCarousel'; // Adjust the path as needed
-import ShopPage from '../../user/user/shop';
+import NavTile from './NavTile'; // Adjust the path as needed
 import GardenServicesCards from './GardenServicesCards';
-import WhyBhoomi from './WhyBhoomi';
-
+import Categories from './Categories';
+import AppDownloadSection from './AppDownloadSection';
+import FeaturedProducts from './FeaturedProducts';
 const LandingPage = () => {
-  // ... your existing code
-
   return (
     <>
-      {/* Your header here, if any */}
-      < BannerCarousel />      
+      <NavTile />
+      <Categories /> 
       <GardenServicesCards />
-      <ShopPage />
-      <WhyBhoomi />
-
-      {/* The rest of your existing sections */}
-      <section className="relative overflow-hidden">
-        {/* ... existing hero section or other sections */}
-      </section>
-      {/* etc. */}
+      <FeaturedProducts />  
+      <AppDownloadSection />
     </>
   );
 };

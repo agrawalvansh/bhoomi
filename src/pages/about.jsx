@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FiUsers, FiMap, FiAward, FiHeart,
   FiTrendingUp, FiThumbsUp, FiSun, FiDroplet,
   FiTarget, FiTrello, FiBarChart2, FiArrowDown,
-  FiShield, FiBox, FiCoffee, FiStar
+  FiShield, FiBox, FiCoffee, FiStar,
+  FiMenu, FiX, FiChevronDown
 } from 'react-icons/fi';
 
 const AboutPage = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
+  // Tracking scroll for sticky navbar effects
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const colors = {
-    primary: '#2D3B2D',
-    secondary: '#D4B982',
-    tertiary: '#4A6741',
-    background: '#F9F6F0',
+    primary: '#2d5a27',
+    secondary: '#D4B982', 
+    tertiary: '#2d5a27',
+    background: '#f5f5f0',
     accent: '#A8C69F',
     deep: '#1B4D3E',
     highlight: '#F3E5AB',
@@ -74,49 +88,50 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
-      {/* Hero Section */}
-      <div className="relative py-32" style={{ 
+      {/* Hero Section - Made more responsive */}
+      <div id="about" className="relative pt-16 pb-16 md:py-40" style={{ 
         background: `linear-gradient(160deg, ${colors.deep} 0%, ${colors.tertiary} 100%)`
       }}>
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
-            Bringing Nature Closer<br />to Urban Lives
+        <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-8 leading-tight">
+            Bringing Nature Closer<br className="hidden sm:block" /> to Urban Lives
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10">
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 md:mb-10">
             Founded in 2025, Bhoomi is revolutionizing urban gardening with sustainable solutions 
             and smart technology for homes and offices across Bangalore.
           </p>
           <a 
             href="#learn-more" 
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-medium transition-all hover:transform hover:scale-105"
             style={{ backgroundColor: colors.secondary, color: colors.deep }}
+            aria-label="Learn more about Bhoomi"
           >
-            Learn More <FiArrowDown />
+            Learn More <FiChevronDown className="animate-bounce" />
           </a>
         </div>
         
-        {/* Decorative plant elements */}
-        <div className="absolute bottom-0 left-0 w-32 h-32 md:w-48 md:h-48 opacity-20">
+        {/* Decorative plant elements with better positioning */}
+        <div className="absolute bottom-0 left-0 w-24 h-24 md:w-48 md:h-48 opacity-10 md:opacity-20 pointer-events-none">
           <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <path fill="#FFFFFF" d="M44.5,-76.3C55.9,-69.9,62.2,-54.5,68.2,-39.9C74.2,-25.4,79.9,-12.7,79.6,-0.2C79.3,12.4,73,24.7,65.5,35.7C58.1,46.7,49.4,56.2,38.7,63.9C28,71.5,14,77.3,-0.2,77.6C-14.4,77.9,-28.8,72.7,-39.2,64.1C-49.6,55.6,-56,43.7,-63.1,31.6C-70.1,19.5,-77.8,7.3,-78.4,-5.5C-79,-18.3,-72.3,-31.5,-63.3,-41.6C-54.3,-51.7,-42.8,-58.7,-31,-62.9C-19.1,-67.1,-6.9,-68.5,7,-74.3C20.9,-80.1,33.1,-82.7,44.5,-76.3Z" transform="translate(100 100)" />
           </svg>
         </div>
         
-        <div className="absolute bottom-0 right-0 w-32 h-32 md:w-48 md:h-48 opacity-20">
+        <div className="absolute bottom-0 right-0 w-24 h-24 md:w-48 md:h-48 opacity-10 md:opacity-20 pointer-events-none">
           <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <path fill="#FFFFFF" d="M37.6,-64.1C47.8,-57.9,54.6,-45.8,62.4,-33.3C70.2,-20.8,79,-8,79.8,5.5C80.6,19,73.5,33.2,64.1,44.6C54.8,56,43.3,64.7,30.3,71.1C17.3,77.6,2.9,81.8,-11.9,80.3C-26.7,78.9,-41.8,71.7,-54.1,61.1C-66.3,50.5,-75.7,36.5,-79.8,21C-83.9,5.6,-82.7,-11.3,-76.6,-25.5C-70.5,-39.7,-59.5,-51.3,-46.5,-56.6C-33.4,-61.9,-18.3,-61,-3.5,-55.4C11.2,-49.9,27.3,-70.3,37.6,-64.1Z" transform="translate(100 100)" />
           </svg>
         </div>
       </div>
 
-      {/* Company Description */}
-      <div id="learn-more" className="py-20 px-4">
+      {/* Company Description - Added more container padding for mobile */}
+      <div id="learn-more" className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-3xl mx-auto">
           <div className="mb-12">
-            <h2 className="text-4xl font-bold mb-10 text-center relative" style={{ color: colors.deep }}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-10 text-center relative" style={{ color: colors.deep }}>
               <span className="inline-block relative">
                 Who We Are
-                <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 rounded-full"
+                <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-16 md:w-24 h-1 rounded-full"
                   style={{ backgroundColor: colors.secondary }}></span>
               </span>
             </h2>
@@ -124,7 +139,7 @@ const AboutPage = () => {
               <p className="text-lg leading-relaxed">
                 Bhoomi is an urban gardening solution. We provide end-to-end garden arrangements with healthy, chemical-free plants and all necessary equipment, tailor-made for your location.
               </p>
-              <div className="border-l-4 pl-6 my-8 py-4 rounded-r-lg" 
+              <div className="border-l-4 pl-4 md:pl-6 my-6 md:my-8 py-4 rounded-r-lg" 
                 style={{ 
                   borderColor: colors.tertiary,
                   backgroundColor: `${colors.accent}20`
@@ -141,35 +156,35 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* Problem & Solution Section */}
-      <div className="py-20 px-4" style={{ backgroundColor: `${colors.deep}05` }}>
+      {/* Problem & Solution Section - Improved card appearance */}
+      <div className="py-16 md:py-24 px-4 md:px-6" style={{ backgroundColor: `${colors.deep}05` }}>
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold mb-10 text-center relative" style={{ color: colors.deep }}>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-10 text-center relative" style={{ color: colors.deep }}>
             <span className="inline-block relative">
               The Urban Gardening Challenge
-              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 rounded-full"
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-16 md:w-24 h-1 rounded-full"
                 style={{ backgroundColor: colors.secondary }}></span>
             </span>
           </h2>
-          <div className="space-y-8">
-            <div className="flex items-start gap-5 p-6 rounded-lg transition-all hover:shadow-md"
+          <div className="space-y-4 md:space-y-6">
+            <div className="flex items-start gap-3 md:gap-5 p-4 md:p-6 rounded-lg transition-all hover:shadow-md"
               style={{ backgroundColor: 'white' }}>
               <div className="w-3 h-3 mt-2 rounded-full flex-shrink-0" style={{ backgroundColor: colors.tertiary }}></div>
-              <p className="text-lg leading-relaxed" style={{ color: colors.primary }}>
+              <p className="text-base md:text-lg leading-relaxed" style={{ color: colors.primary }}>
                 Urban residents struggle with gardening due to limited time, space, and expert guidance.
               </p>
             </div>
-            <div className="flex items-start gap-5 p-6 rounded-lg transition-all hover:shadow-md"
+            <div className="flex items-start gap-3 md:gap-5 p-4 md:p-6 rounded-lg transition-all hover:shadow-md"
               style={{ backgroundColor: 'white' }}>
               <div className="w-3 h-3 mt-2 rounded-full flex-shrink-0" style={{ backgroundColor: colors.tertiary }}></div>
-              <p className="text-lg leading-relaxed" style={{ color: colors.primary }}>
+              <p className="text-base md:text-lg leading-relaxed" style={{ color: colors.primary }}>
                 Existing solutions lack reliable advice and space-efficient strategies.
               </p>
             </div>
-            <div className="flex items-start gap-5 p-6 rounded-lg transition-all hover:shadow-md"
+            <div className="flex items-start gap-3 md:gap-5 p-4 md:p-6 rounded-lg transition-all hover:shadow-md"
               style={{ backgroundColor: 'white' }}>
               <div className="w-3 h-3 mt-2 rounded-full flex-shrink-0" style={{ backgroundColor: colors.tertiary }}></div>
-              <p className="text-lg leading-relaxed" style={{ color: colors.primary }}>
+              <p className="text-base md:text-lg leading-relaxed" style={{ color: colors.primary }}>
                 Finding high-quality plants, suitable for specific indoor and outdoor conditions, remains a significant challenge.
               </p>
             </div>
@@ -177,20 +192,23 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* What Sets Us Apart */}
-      <div className="py-20 px-4">
+      {/* What Sets Us Apart - Added responsive grid and animation */}
+      <div className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center relative" style={{ color: colors.deep }}>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center relative" style={{ color: colors.deep }}>
             <span className="inline-block relative">
               What Sets Us Apart
-              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 rounded-full"
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-16 md:w-24 h-1 rounded-full"
                 style={{ backgroundColor: colors.secondary }}></span>
             </span>
           </h2>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
             {uniqueFeatures.map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-sm transition-all hover:shadow-md border border-transparent hover:border-gray-200">
+              <div 
+                key={index} 
+                className="bg-white rounded-xl p-6 md:p-8 shadow-sm transition-all hover:shadow-md border border-transparent hover:border-gray-200 hover:translate-y-1 duration-300"
+              >
                 <div className="w-12 h-12 flex items-center justify-center rounded-full mb-6" 
                   style={{ backgroundColor: `${colors.tertiary}15` }}>
                   <feature.icon 
@@ -208,8 +226,8 @@ const AboutPage = () => {
             ))}
           </div>
           
-          <div className="bg-white rounded-xl p-8 shadow-sm">
-            <p className="text-lg text-center" style={{ color: colors.primary }}>
+          <div className="bg-white rounded-xl p-6 md:p-8 shadow-sm">
+            <p className="text-base md:text-lg text-center" style={{ color: colors.primary }}>
               Bhoomi offers a complete gardening solution with custom planning, expert consultations, and long-term care. 
               Our on-demand maintenance, vertical gardening, and 3D garden designs make urban gardening stress-free. 
               Our fast setup, sustainable methods, and organic, chemical-free plants set us apart.
@@ -218,24 +236,27 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* Business Model */}
-      <div className="py-20 px-4" style={{ backgroundColor: colors.highlight }}>
+      {/* Business Model - Added animation and improved spacing */}
+      <div id="services" className="py-16 md:py-24 px-4 md:px-6" style={{ backgroundColor: colors.highlight }}>
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center" style={{ color: colors.deep }}>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center" style={{ color: colors.deep }}>
             <span className="inline-block relative">
               Our Services
-              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 rounded-full"
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-16 md:w-24 h-1 rounded-full"
                 style={{ backgroundColor: colors.tertiary }}></span>
             </span>
           </h2>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {businessModel.map((item, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
-                <div className="w-14 h-14 flex items-center justify-center rounded-full mb-6" 
+              <div 
+                key={index} 
+                className="bg-white rounded-xl p-6 md:p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+              >
+                <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full mb-6" 
                   style={{ backgroundColor: `${colors.tertiary}15` }}>
                   <item.icon 
-                    className="w-7 h-7"
+                    className="w-6 h-6 md:w-7 md:h-7"
                     style={{ color: colors.tertiary }}
                   />
                 </div>
@@ -247,8 +268,9 @@ const AboutPage = () => {
                 </p>
                 <a 
                   href="#" 
-                  className="inline-block mt-6 text-sm font-medium"
+                  className="inline-block mt-6 text-sm font-medium transition-all hover:translate-x-1"
                   style={{ color: colors.tertiary }}
+                  aria-label={`Learn more about ${item.title}`}
                 >
                   Learn more →
                 </a>
@@ -258,24 +280,27 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* Values Section */}
-      <div className="py-20 px-4" style={{ backgroundColor: colors.accent }}>
+      {/* Values Section - Improved spacing and responsiveness */}
+      <div id="values" className="py-16 md:py-24 px-4 md:px-6" style={{ backgroundColor: colors.accent }}>
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center" style={{ color: colors.deep }}>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center" style={{ color: colors.deep }}>
             <span className="inline-block relative">
               Our Values
-              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 rounded-full"
+              <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-16 md:w-24 h-1 rounded-full"
                 style={{ backgroundColor: colors.secondary }}></span>
             </span>
           </h2>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-sm transition-all hover:shadow-md">
-                <div className="w-14 h-14 flex items-center justify-center rounded-full mb-6" 
+              <div 
+                key={index} 
+                className="bg-white rounded-xl p-6 md:p-8 shadow-sm transition-all duration-300 hover:shadow-md"
+              >
+                <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full mb-6" 
                   style={{ backgroundColor: `${colors.deep}10` }}>
                   <value.icon 
-                    className="w-7 h-7"
+                    className="w-6 h-6 md:w-7 md:h-7"
                     style={{ color: colors.deep }}
                   />
                 </div>
@@ -291,28 +316,30 @@ const AboutPage = () => {
         </div>
       </div>
       
-      {/* CTA Section */}
-      <div className="py-20 px-4" style={{ 
+      {/* CTA Section - Improved button styling and added animation */}
+      <div id="contact" className="py-16 md:py-24 px-4 md:px-6" style={{ 
         background: `linear-gradient(160deg, ${colors.deep} 0%, ${colors.tertiary} 100%)`
       }}>
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 md:mb-6">
             Ready to Transform Your Space?
           </h2>
-          <p className="text-xl text-white/90 mb-10">
+          <p className="text-lg md:text-xl text-white/90 mb-8 md:mb-10">
             Join the urban gardening revolution and bring nature closer to your daily life.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="/" 
-              className="px-8 py-3 rounded-full font-medium transition-all"
+              className="px-6 md:px-8 py-3 rounded-full font-medium transition-all duration-300 hover:transform hover:scale-105"
               style={{ backgroundColor: colors.secondary, color: colors.deep }}
+              aria-label="Get started with Bhoomi"
             >
               Get Started
             </a>
             <a 
               href="/" 
-              className="px-8 py-3 rounded-full font-medium transition-all border-2 border-white/30 text-white hover:bg-white/10"
+              className="px-6 md:px-8 py-3 rounded-full font-medium transition-all duration-300 border-2 border-white/30 text-white hover:bg-white/10"
+              aria-label="Learn more about Bhoomi services"
             >
               Learn More
             </a>

@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* Apply Lexend font to the entire website */
+* {
+  font-family: 'Lexend', sans-serif;
+}
+
+/* Set default font for the entire document */
+html, body {
+  font-family: 'Lexend', sans-serif;
+}

@@ -16,15 +16,16 @@ const SignupPage = () => {
 
   // Brand color palette
   const colors = {
-    primary: '#2D3B2D',
-    secondary: '#D4B982',
-    tertiary: '#4A6741',
-    background: '#F9F6F0',
+    primary: '#2d5a27',
+    secondary: '#D4B982', 
+    tertiary: '#2d5a27',
+    background: '#f5f5f0',
     accent: '#A8C69F',
     deep: '#1B4D3E',
     highlight: '#F3E5AB',
     warm: '#E6BAA3'
   };
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -62,7 +63,7 @@ const SignupPage = () => {
           <p className="text-lg font-medium" style={{ color: colors.primary }}>
             {success
               ? 'Welcome to the Bhoomi community!'
-              : 'Start your urban gardening journey'}
+              : 'Start your gardening journey'}
           </p>
         </div>
 
@@ -284,6 +285,7 @@ const SignupPage = () => {
                   accentColor: colors.tertiary,
                   borderColor: colors.accent
                 }}
+                required
               />
               <div>
                 <label

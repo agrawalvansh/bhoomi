@@ -14,12 +14,12 @@ const App = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Layout />}>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/designer/*" element={<Designer />} />
-      <Route path="/gardener/*" element={<Gardener />} />
-      <Route path="/plant/*" element={<PlantExpert />} />
-      <Route path="/product/*" element={<ProductManager />} />
-      <Route path="/admin/*" element={<StoreAdmin />} />
-      <Route path="/visitor/*" element={<Visitor />} />
+      {/* <Route path="/designer/*" element={<Designer />} /> */}
+      {/* <Route path="/gardener/*" element={<Gardener />} /> */}
+      {/* <Route path="/plant/*" element={<PlantExpert />} /> */}
+      {/* <Route path="/product/*" element={<ProductManager />} /> */}
+      {/* <Route path="/admin/*" element={<StoreAdmin />} /> */}
+      {/* <Route path="/visitor/*" element={<Visitor />} /> */}
       <Route path="/user/*" element={<User />} />
       <Route path="/*" element={<Pages />} />
       {/* Handle 404 and unknown routes */}

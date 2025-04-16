@@ -1,308 +1,346 @@
 import React, { useState, useEffect } from 'react';
-import { FiClock, FiCalendar, FiMapPin, FiPhone, FiPackage, FiShoppingBag } from 'react-icons/fi';
-import { Card } from '../../components/ui/card';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-const OrderHistoryPage = () => {
+const OrderHistory = () => {
+  const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [serviceBookings, setServiceBookings] = useState([]);
+  const [activeTab, setActiveTab] = useState('orders');
+  const [loading, setLoading] = useState(true);
+
   const colors = {
-    primary: '#2D3B2D',
-    secondary: '#D4B982',
-    tertiary: '#4A6741',
-    background: '#F9F6F0',
+    primary: '#2d5a27',
+    secondary: '#D4B982', 
+    tertiary: '#2d5a27',
+    background: '#f5f5f0',
     accent: '#A8C69F',
     deep: '#1B4D3E',
     highlight: '#F3E5AB',
-    warm: '#E6BAA3',
-    error: '#FF6B6B'
+    warm: '#E6BAA3'
   };
-
-  // Replace Firebase auth with mock user
-  const user = {
-    id: '123',
-    email: 'user@example.com',
-    name: 'Test User'
-  };
-
-  const [serviceBookings, setServiceBookings] = useState([]);
-  const [shopOrders, setShopOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('all');
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAllOrders = async () => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
+    // Load orders and service bookings from localStorage
+    const loadData = () => {
       try {
-        // Load from localStorage instead of Firebase
-        const savedBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-        const savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
-
-        // Format the dates
-        const bookingsData = savedBookings.map(booking => ({
-          ...booking,
-          type: 'service',
-          createdAt: new Date(booking.createdAt)
-        }));
-
-        const ordersData = savedOrders.map(order => ({
-          ...order,
-          type: 'shop',
-          createdAt: new Date(order.createdAt)
-        }));
-
-        // Sort the data
-        const sortedBookings = bookingsData.sort((a, b) => 
-          (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
-        );
+        // Load product orders
+        const savedOrders = localStorage.getItem('orders');
+        const parsedOrders = savedOrders ? JSON.parse(savedOrders) : [];
+        setOrders(parsedOrders);
         
-        const sortedOrders = ordersData.sort((a, b) => 
-          (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
-        );
-
-        setServiceBookings(sortedBookings);
-        setShopOrders(sortedOrders);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching orders:', err);
-        setError('Failed to load order history. Please try again later.');
+        // Load service bookings
+        const savedBookings = localStorage.getItem('bookings');
+        const parsedBookings = savedBookings ? JSON.parse(savedBookings) : [];
+        setServiceBookings(parsedBookings);
+      } catch (error) {
+        console.error('Error loading data:', error);
+        setOrders([]);
+        setServiceBookings([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAllOrders();
+    loadData();
   }, []);
 
-  const ServiceBookingCard = ({ booking }) => (
-    <Card className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-xl font-semibold" style={{ color: colors.deep }}>
-            {booking.service?.name || 'Service Booking'}
-          </h3>
-          <p className="text-green-600 font-medium mt-1">
-            {booking.service?.price || 'Price not available'}
-          </p>
-        </div>
-        <span className={`px-3 py-1 rounded-full text-sm ${
-          booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-          booking.status === 'completed' ? 'bg-green-100 text-green-800' :
-          'bg-red-100 text-red-800'
-        }`}>
-          {booking.status || 'Status not available'}
-        </span>
-      </div>
-      
-      <div className="space-y-3">
-        {booking.date && (
-          <div className="flex items-center text-gray-600">
-            <FiCalendar className="mr-2" />
-            <span>{new Date(booking.date).toLocaleDateString()}</span>
-          </div>
-        )}
-        {booking.time && (
-          <div className="flex items-center text-gray-600">
-            <FiClock className="mr-2" />
-            <span>{booking.time}</span>
-          </div>
-        )}
-        {booking.phone && (
-          <div className="flex items-center text-gray-600">
-            <FiPhone className="mr-2" />
-            <span>{booking.phone}</span>
-          </div>
-        )}
-        {booking.address && (
-          <div className="flex items-center text-gray-600">
-            <FiMapPin className="mr-2" />
-            <span>{booking.address}</span>
-          </div>
-        )}
-      </div>
-
-      {booking.specialInstructions && (
-        <div className="mt-4 pt-4 border-t">
-          <p className="text-sm text-gray-600">
-            <span className="font-semibold">Special Instructions:</span><br />
-            {booking.specialInstructions}
-          </p>
-        </div>
-      )}
-
-      {booking.createdAt && (
-        <div className="mt-4 pt-4 border-t text-sm text-gray-500">
-          Booked on: {booking.createdAt.toLocaleDateString()} at {booking.createdAt.toLocaleTimeString()}
-        </div>
-      )}
-    </Card>
-  );
-
-  const ShopOrderCard = ({ order }) => (
-    <Card className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-      <div className="flex justify-between items-start">
-        <div>
-          <h3 className="text-xl font-semibold" style={{ color: colors.deep }}>
-            Order #{order.id.slice(0, 8)}
-          </h3>
-          <p className="text-sm text-gray-600 mt-1">
-            {order.createdAt?.toLocaleDateString()} at {order.createdAt?.toLocaleTimeString()}
-          </p>
-        </div>
-        <span className="px-3 py-1 rounded-full text-sm"
-          style={{
-            backgroundColor: 
-              order.status === 'completed' ? colors.accent :
-              order.status === 'pending' ? colors.highlight :
-              colors.error,
-            color: colors.primary
-          }}>
-          {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Status not available'}
-        </span>
-      </div>
-
-      <div className="mt-4 space-y-2">
-        {order.items?.map((item, index) => (
-          <div key={index} className="flex justify-between items-center py-2 border-b">
-            <div className="flex items-center">
-              <FiPackage className="mr-2" style={{ color: colors.tertiary }} />
-              <span>{item.name}</span>
-            </div>
-            <div className="text-right">
-              <p className="font-medium">${item.price} × {item.quantity}</p>
-              <p className="text-sm text-gray-600">${(item.price * item.quantity).toFixed(2)}</p>
-            </div>
-          </div>
-        ))}
-        <div className="flex justify-between items-center pt-4 font-bold">
-          <span>Total</span>
-          <span style={{ color: colors.tertiary }}>${order.total?.toFixed(2) || '0.00'}</span>
-        </div>
-      </div>
-    </Card>
-  );
-
-  const CustomTabs = () => {
-    const tabs = [
-      { id: 'all', label: 'All Orders' },
-      { id: 'services', label: 'Service Bookings' },
-      { id: 'shop', label: 'Shop Orders' }
-    ];
-
-    return (
-      <div className="flex space-x-2 mb-8 border-b">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 font-medium transition-colors duration-200 ${
-              activeTab === tab.id 
-                ? 'border-b-2 text-primary'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            style={{ 
-              borderColor: activeTab === tab.id ? colors.tertiary : 'transparent',
-              color: activeTab === tab.id ? colors.deep : undefined
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-    );
+  // Format date string
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const renderContent = () => {
-    const allOrders = [...serviceBookings, ...shopOrders]
-      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
+  // Get status color
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'delivered':
+        return 'bg-green-100 text-green-800';
+      case 'shipped':
+        return 'bg-blue-100 text-blue-800';
+      case 'processing':
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
 
-    // Check if there are no orders based on the active tab
-    const noOrders = (activeTab === 'services' && serviceBookings.length === 0) ||
-                     (activeTab === 'shop' && shopOrders.length === 0) ||
-                     (activeTab === 'all' && allOrders.length === 0);
-
-    if (noOrders) {
+  // Render product orders
+  const renderOrders = () => {
+    if (orders.length === 0) {
       return (
-        <div className="flex flex-col items-center justify-center p-12 bg-white rounded-lg shadow-md">
-          <FiShoppingBag size={48} style={{ color: colors.tertiary }} />
-          <h3 className="mt-6 text-xl font-semibold" style={{ color: colors.deep }}>
-            No orders found
-          </h3>
-          <p className="mt-2 text-gray-600 text-center">
-            {activeTab === 'services' 
-              ? "You haven't booked any services yet."
-              : activeTab === 'shop' 
-                ? "You haven't placed any shop orders yet."
-                : "You haven't placed any orders or booked any services yet."}
-          </p>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-16"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: colors.tertiary }}>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <h2 className="text-lg mb-4" style={{ color: colors.primary }}>No orders yet</h2>
           <button 
-            className="mt-6 px-6 py-2 rounded-lg text-white transition-colors hover:bg-opacity-90"
-            style={{ backgroundColor: colors.tertiary }}
-            onClick={() => navigate(activeTab === 'services' ? '/user/service' : '/user/shop')}
+            onClick={() => navigate('/user/shop/indoor-plants')}
+            className="px-6 py-2 rounded cursor-pointer"
+            style={{ backgroundColor: colors.tertiary, color: colors.background }}
           >
-            {activeTab === 'services' ? 'Browse Services' : 'Shop Now'}
+            Start Shopping
           </button>
-        </div>
+        </motion.div>
       );
     }
 
-    switch (activeTab) {
-      case 'services':
-        return (
-          <div className="grid gap-6 md:grid-cols-2">
-            {serviceBookings.map((booking) => (
-              <ServiceBookingCard key={booking.id} booking={booking} />
-            ))}
-          </div>
-        );
-      case 'shop':
-        return (
-          <div className="grid gap-6 md:grid-cols-2">
-            {shopOrders.map((order) => (
-              <ShopOrderCard key={order.id} order={order} />
-            ))}
-          </div>
-        );
-      default:
-        return (
-          <div className="grid gap-6 md:grid-cols-2">
-            {allOrders.map((order) => (
-              order.type === 'service' 
-                ? <ServiceBookingCard key={`service-${order.id}`} booking={order} />
-                : <ShopOrderCard key={`shop-${order.id}`} order={order} />
-            ))}
-          </div>
-        );
-    }
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-4"
+      >
+        {orders.map((order) => (
+          <motion.div 
+            key={order.id}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-lg shadow-sm overflow-hidden"
+          >
+            <div className="p-4 border-b" style={{ borderColor: colors.accent + '20' }}>
+              {/* Mobile-optimized header with grid layout */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Order ID</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>{order.id}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Date</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>
+                    {formatDate(order.createdAt)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Total</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>
+                    {order.totalAmount ? `₹${order.totalAmount}` : 
+                     order.service?.price ? `₹${order.service.price}` : 
+                     'N/A'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Status</p>
+                  <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.status || 'pending')}`}>
+                    {(order.status || 'Pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1)}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4">
+              <h3 className="font-medium mb-3" style={{ color: colors.primary }}>Items</h3>
+              <div className="space-y-3">
+                {order.items && order.items.length > 0 ? (
+                  order.items.map((item) => (
+                    <div key={item.id} className="flex items-center">
+                      <div className="h-12 w-12 rounded overflow-hidden mr-3 flex-shrink-0">
+                        <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate" style={{ color: colors.primary }}>{item.name}</p>
+                        <div className="flex justify-between">
+                          <span className="text-xs" style={{ color: colors.tertiary }}>Qty: {item.quantity}</span>
+                          <span className="text-sm" style={{ color: colors.primary }}>₹{item.price * item.quantity}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-sm italic" style={{ color: colors.primary }}>
+                    {order.service ? 'Service booking - no items' : 'No items found'}
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="p-4 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+              <div className="w-full sm:w-auto">
+                <p className="text-sm text-gray-500">Shipping Address</p>
+                <p className="text-sm" style={{ color: colors.primary }}>
+                  {order.shippingAddress?.address || order.contactDetails?.address || 'No address provided'}
+                  {order.shippingAddress?.city ? `, ${order.shippingAddress.city}` : ''}
+                  {order.shippingAddress?.pincode ? ` ${order.shippingAddress.pincode}` : ''}
+                </p>
+              </div>
+              <button 
+                onClick={() => navigate(`/user/order-confirmation/${order.id}`)}
+                className="px-4 py-2 text-sm rounded w-full sm:w-auto cursor-pointer"
+                style={{ backgroundColor: colors.tertiary, color: colors.background }}
+              >
+                View Details
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+    );
   };
 
-  if (loading) {
+  // Render service bookings
+  const renderServiceBookings = () => {
+    if (serviceBookings.length === 0) {
+      return (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-16"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: colors.tertiary }}>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <h2 className="text-lg mb-4" style={{ color: colors.primary }}>No service bookings yet</h2>
+          <button 
+            onClick={() => navigate('/user/service')}
+            className="px-6 py-2 rounded cursor-pointer"
+            style={{ backgroundColor: colors.tertiary, color: colors.background }}
+          >
+            Book a Service
+          </button>
+        </motion.div>
+      );
+    }
+
     return (
-      <div className="flex justify-center items-center min-h-screen" style={{ backgroundColor: colors.background }}>
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-      </div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-4"
+      >
+        {serviceBookings.map((booking) => (
+          <motion.div 
+            key={booking.id}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-lg shadow-sm overflow-hidden"
+          >
+            <div className="p-4 border-b" style={{ borderColor: colors.accent + '20' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Booking ID</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>{booking.id}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Service Date</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>
+                    {formatDate(booking.date)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Service</p>
+                  <p className="font-medium truncate" style={{ color: colors.primary }}>{booking.service.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Status</p>
+                  <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(booking.status)}`}>
+                    {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4">
+              <h3 className="font-medium mb-3" style={{ color: colors.primary }}>Service Details</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Service Type</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>{booking.service.type}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Time Slot</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>{booking.timeSlot}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Price</p>
+                  <p className="font-medium" style={{ color: colors.primary }}>₹{booking.service.price}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-gray-50">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+                <div className="w-full sm:w-auto">
+                  <p className="text-sm text-gray-500">Service Address</p>
+                  <p className="text-sm" style={{ color: colors.primary }}>
+                    {booking.contactDetails?.address || booking.address}
+                  </p>
+                </div>
+                <button 
+                  onClick={() => navigate(`/user/service`)}
+                  className="px-4 py-2 text-sm rounded w-full sm:w-auto cursor-pointer"
+                  style={{ backgroundColor: colors.tertiary, color: colors.background }}
+                >
+                  Book Again
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
     );
-  }
+  };
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: colors.background }}>
-      <div className="flex-1 p-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8" style={{ color: colors.primary }}>Order History</h1>
+    <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex items-center mb-6">
+          <button 
+            onClick={() => navigate('/')}
+            className="flex items-center mr-4 cursor-pointer"
+            style={{ color: colors.primary }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </button>
           
-          {error ? (
-            <div className="text-center text-red-600">
-              <p>{error}</p>
-            </div>
-          ) : (
-            <>
-              <CustomTabs />
-              {renderContent()}
-            </>
-          )}
+          <h1 className="text-xl font-bold" style={{ color: colors.primary }}>
+            Order History
+          </h1>
         </div>
+        
+        {/* Tabs */}
+        <div className="flex border-b mb-6 overflow-x-auto" style={{ borderColor: colors.accent }}>
+          <button
+            className={`px-4 py-2 font-medium ${activeTab === 'orders' ? 'border-b-2 text-tertiary' : 'text-gray-500'} cursor-pointer`}
+            style={{ borderColor: activeTab === 'orders' ? colors.tertiary : 'transparent' }}
+            onClick={() => setActiveTab('orders')}
+          >
+            Product Orders
+          </button>
+          <button
+            className={`px-4 py-2 font-medium ${activeTab === 'services' ? 'border-b-2 text-tertiary' : 'text-gray-500'} cursor-pointer`}
+            style={{ borderColor: activeTab === 'services' ? colors.tertiary : 'transparent' }}
+            onClick={() => setActiveTab('services')}
+          >
+            Service Bookings
+          </button>
+        </div>
+        
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2" style={{ borderColor: colors.tertiary }}></div>
+          </div>
+        ) : (
+          activeTab === 'orders' ? renderOrders() : renderServiceBookings()
+        )}
       </div>
     </div>
   );
 };
 
-export default OrderHistoryPage;
+export default OrderHistory;

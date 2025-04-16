@@ -1,7 +1,6 @@
 import GardenerHome from './GardenerHome';
 import GardenerServiceRouter from './Service';
 import GardenerProfile from './Profile';
-import Header from './Header';
 import { Routes, Route } from 'react-router-dom';
 
 const Gardener = () => {

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff, FiLock, FiUser } from 'react-icons/fi';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +14,7 @@ const LoginPage = () => {
 
   // User roles and their corresponding home pages
   const userRoles = {
+    '':'/',
     'Admin': '/admin/home',
     'Product Manager': '/product/stock-overview',
     'Visitor': '/visitor/home',
@@ -21,22 +25,22 @@ const LoginPage = () => {
 
   // Brand color palette
   const colors = {
-    primary: '#2D3B2D',     // Rich Earth
-    secondary: '#D4B982',   // Forest Gold
-    tertiary: '#4A6741',    // Living Green
-    background: '#F9F6F0',  // Cream Canvas
-    accent: '#A8C69F',      // Sage Mist
-    deep: '#1B4D3E',        // Deep Moss
-    highlight: '#F3E5AB',   // Golden Dawn
-    warm: '#E6BAA3'         // Terra Rose
+    primary: '#2d5a27',
+    secondary: '#D4B982', 
+    tertiary: '#2d5a27',
+    background: '#f5f5f0',
+    accent: '#A8C69F',
+    deep: '#1B4D3E',
+    highlight: '#F3E5AB',
+    warm: '#E6BAA3'
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!selectedRole) {
-      setError('Please select a user role');
-      return;
-    }
+    // if (!selectedRole) {
+    //   setError('Please select a user role');
+    //   return;
+    // }
     
     setError('');
     setIsLoading(true);
@@ -45,7 +49,7 @@ const LoginPage = () => {
       // Simulated API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       // Navigate to the corresponding home page
-      window.location.href = userRoles[selectedRole];
+      navigate(userRoles[selectedRole]);
     } catch {
       setError('Invalid credentials. Please try again.');
     } finally {
@@ -122,7 +126,7 @@ const LoginPage = () => {
             className="text-lg font-medium"
             style={{ color: colors.primary }}
           >
-            Welcome back to your urban garden
+            Welcome Back
           </p>
         </div>
 
@@ -142,7 +146,7 @@ const LoginPage = () => {
         )}
 
         <form onSubmit={handleLogin} className="space-y-6">
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <label 
               htmlFor="userRole" 
               className="block text-sm font-medium"
@@ -170,22 +174,23 @@ const LoginPage = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           <div className="space-y-1">
-            <label 
-              htmlFor="email" 
-              className="block text-sm font-medium"
+            <label
+              htmlFor="email"
+              className="flex items-center text-sm font-medium"
               style={{ color: colors.primary }}
             >
-              Email Address
+              <FiUser style={{ color: colors.tertiary }} />
+              <span className="ml-2">Email</span>
             </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              // required
+              required
               autoComplete="email"
               placeholder="name@example.com"
               className="w-full px-4 py-3 rounded-lg transition-all"
@@ -200,13 +205,14 @@ const LoginPage = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between items-center">
-              <label 
-                htmlFor="password" 
-                className="block text-sm font-medium"
-                style={{ color: colors.primary }}
-              >
-                Password
-              </label>
+                <label
+                  htmlFor="password"
+                  className="flex items-center text-sm font-medium"
+                  style={{ color: colors.primary }}
+                >
+                  <FiLock style={{ color: colors.tertiary }} />
+                  <span className="ml-2">Password</span>
+                </label>
               <a 
                 href="/forgot-password" 
                 className="text-sm hover:underline"
@@ -221,7 +227,7 @@ const LoginPage = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                // required
+                required
                 autoComplete="current-password"
                 placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-lg transition-all"
@@ -239,7 +245,11 @@ const LoginPage = () => {
                 style={{ color: colors.primary }}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? '👁️' : '👁️🗨️'}
+                {showPassword ? (
+                  <FiEyeOff className="w-5 h-5" />
+                ) : (
+                  <FiEye className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
@@ -287,7 +297,7 @@ const LoginPage = () => {
           </div>
 
           <motion.button
-            onClick={handleGoogleLogin}
+            onClick={() => navigate('/')}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="button"
