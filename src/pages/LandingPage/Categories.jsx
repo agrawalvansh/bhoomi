@@ -33,7 +33,7 @@ const Categories = () => {
             className="text-xl font-semibold uppercase tracking-wide"
             style={{ color: colors.primary }}
           >
-            Plants & Gardening
+            Order Plants
           </h2>
           
           <button 

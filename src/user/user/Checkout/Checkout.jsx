@@ -163,6 +163,7 @@ const Checkout = () => {
       localStorage.setItem('orders', JSON.stringify([...existingOrders, orderData]));
       
       clearCart();
+      
       navigate(`/user/order-confirmation/${orderData.id}`);
     } catch (error) {
       console.error('Error placing order:', error);
@@ -241,33 +242,8 @@ const Checkout = () => {
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          {/* Order Summary - Full width on mobile, side column on desktop */}
-          <div className={`${step === 3 ? 'lg:col-span-1' : 'lg:col-span-1 lg:order-2'} bg-white rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 h-fit border border-[#A8C69F]/20`}>
-            {/* Collapsible Order Summary on Mobile */}
-            <div className="lg:hidden mb-4">
-              <button 
-                onClick={() => document.getElementById('orderSummaryMobile').classList.toggle('hidden')}
-                className="flex w-full justify-between items-center py-2 cursor-pointer"
-              >
-                <h2 className="text-xl font-bold text-[#2D3B2D]">Order Summary</h2>
-                <svg className="w-5 h-5 text-[#2D3B2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div id="orderSummaryMobile" className="hidden">
-                <OrderSummaryContent cartItems={cartItems} cartTotal={cartTotal} />
-              </div>
-            </div>
-            
-            {/* Always visible on desktop */}
-            <div className="hidden lg:block">
-              <h2 className="text-xl md:text-2xl font-bold text-[#2D3B2D] mb-4 md:mb-6">Order Summary</h2>
-              <OrderSummaryContent cartItems={cartItems} cartTotal={cartTotal} />
-            </div>
-          </div>
-
-          {/* Main Form Section */}
-          <div className={`${step === 3 ? 'lg:col-span-2' : 'lg:col-span-2 lg:order-1'} space-y-4 sm:space-y-6 md:space-y-8`}>
+          {/* Main Form Section - Always on left side (columns 1-2) */}
+          <div className="lg:col-span-2 lg:order-1 space-y-4 sm:space-y-6 md:space-y-8">
             {step === 1 && (
               <ShippingForm formData={formData} handleInputChange={handleInputChange} />
             )}
@@ -332,6 +308,31 @@ const Checkout = () => {
                   'Continue'
                 )}
               </button>
+            </div>
+          </div>
+
+          {/* Order Summary - Always on right side (column 3) */}
+          <div className="lg:col-span-1 lg:order-2 bg-white rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 h-fit border border-[#A8C69F]/20">
+            {/* Collapsible Order Summary on Mobile */}
+            <div className="lg:hidden mb-4">
+              <button 
+                onClick={() => document.getElementById('orderSummaryMobile').classList.toggle('hidden')}
+                className="flex w-full justify-between items-center py-2 cursor-pointer"
+              >
+                <h2 className="text-xl font-bold text-[#2D3B2D]">Order Summary</h2>
+                <svg className="w-5 h-5 text-[#2D3B2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="orderSummaryMobile" className="hidden">
+                <OrderSummaryContent cartItems={cartItems} cartTotal={cartTotal} />
+              </div>
+            </div>
+            
+            {/* Always visible on desktop */}
+            <div className="hidden lg:block">
+              <h2 className="text-xl md:text-2xl font-bold text-[#2D3B2D] mb-4 md:mb-6">Order Summary</h2>
+              <OrderSummaryContent cartItems={cartItems} cartTotal={cartTotal} />
             </div>
           </div>
         </div>

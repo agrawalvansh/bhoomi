@@ -109,7 +109,7 @@ const NavTile = () => {
         </div>
       </div>
 
-      {/* Services Section - Modified to fix mobile alignment issues */}
+      {/* Services Section - Modified with enhanced animations */}
       <div className="container mx-auto px-4 pb-12 relative z-10">
         <div className="flex justify-center">
           <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-2xl">
@@ -117,7 +117,10 @@ const NavTile = () => {
               <div 
                 key={index}
                 className="flex flex-col bg-[#f5f5f0] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group animate-staggered-fade"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ 
+                  animationDelay: `${index * 0.3}s`,
+                  opacity: 0 // Initial state for animation
+                }}
               >
                 <div className="p-2 sm:p-4 hover:bg-gray-50 transition-colors duration-300">
                   <h3 className="text-xs sm:text-base font-bold mb-1 transform group-hover:translate-x-2 transition-transform duration-300 text-center sm:text-left" style={{ color: colors.primary }}>
@@ -144,7 +147,8 @@ const NavTile = () => {
                   <img 
                     src={service.image} 
                     alt={service.title} 
-                    className="w-full h-20 sm:h-36 object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-20 sm:h-36 object-cover transition-transform duration-700 group-hover:scale-110 animate-image-fade"
+                    style={{ opacity: 0 }} // Initial state for image animation
                   />
                 </div>
               </div>
@@ -169,7 +173,7 @@ const NavTile = () => {
         />
       </div>
 
-      {/* Animation Keyframes */}
+      {/* Animation Keyframes - Enhanced with new animations */}
       <style>
         {`
         /* Text size for very small screens */
@@ -205,8 +209,29 @@ const NavTile = () => {
         }
 
         @keyframes staggered-fade {
-          0% { opacity: 0; transform: translateY(10px); }
-          100% { opacity: 1; transform: translateY(0); }
+          0% { 
+            opacity: 0;
+            transform: translateY(20px) rotate(3deg);
+          }
+          70% {
+            opacity: 1;
+            transform: translateY(-5px) rotate(-1deg);
+          }
+          100% { 
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+          }
+        }
+
+        @keyframes image-fade {
+          0% {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
 
         @keyframes float {
@@ -219,8 +244,19 @@ const NavTile = () => {
         .animate-slide-left { animation: slide-left 0.5s ease-out forwards; }
         .animate-float-up { animation: float-up 0.6s ease-out forwards; }
         .animate-scale-in { animation: scale-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .animate-staggered-fade { animation: staggered-fade 0.6s ease-out forwards; }
+        .animate-staggered-fade { 
+          animation: staggered-fade 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .animate-image-fade {
+          animation: image-fade 0.6s ease-out forwards;
+          animation-delay: 0.4s; /* Delay to sync with card animation */
+        }
         .animate-float { animation: float 4s ease-in-out infinite; }
+        
+        /* Add smooth transition for image loading */
+        img {
+          transition: opacity 0.3s ease-in-out;
+        }
         `}
       </style>
     </div>

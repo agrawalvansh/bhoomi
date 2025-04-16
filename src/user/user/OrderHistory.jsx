@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { products, getProductById } from './plantShopData';
 
 const OrderHistory = () => {
   const navigate = useNavigate();
@@ -30,7 +31,25 @@ const OrderHistory = () => {
         // Load product orders
         const savedOrders = localStorage.getItem('orders');
         const parsedOrders = savedOrders ? JSON.parse(savedOrders) : [];
-        setOrders(parsedOrders);
+        
+        // Update order items with correct image paths from plantShopData
+        const updatedOrders = parsedOrders.map(order => {
+          if (order.items && order.items.length > 0) {
+            const updatedItems = order.items.map(item => {
+              // Try to find the product in plantShopData
+              const productData = getProductById(item.id);
+              if (productData) {
+                // Update image path if product is found
+                return { ...item, image: productData.image };
+              }
+              return item;
+            });
+            return { ...order, items: updatedItems };
+          }
+          return order;
+        });
+        
+        setOrders(updatedOrders);
         
         // Load service bookings
         const savedBookings = localStorage.getItem('bookings');
