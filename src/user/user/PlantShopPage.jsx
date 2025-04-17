@@ -378,11 +378,6 @@ const PlantShopPage = () => {
                   >
                     {/* Product Image */}
                     <div className="relative">
-                      {product.discount && (
-                        <div className="absolute top-1 left-1 md:top-2 md:left-2 z-10 bg-orange-500 text-white font-medium text-xs px-1 py-0.5 md:px-2 md:py-1 rounded">
-                          {product.discount}% OFF
-                        </div>
-                      )}
                       {product.featured && (
                         <div className="absolute top-1 right-1 md:top-2 md:right-2 z-10 bg-pink-500 text-white font-medium text-xs px-1 py-0.5 md:px-2 md:py-1 rounded">
                           {product.featured}
@@ -419,7 +414,7 @@ const PlantShopPage = () => {
                       >
                         {product.name}
                       </h3>
-                      <p className="text-xs md:text-sm mb-2 h-10 overflow-hidden text-[#F3E5AB]">
+                      <p className="text-xs md:text-sm mb-2 h-10 overflow-y-auto text-[#F3E5AB]">
                         {product.shortDescription || product.description}
                       </p>
                       

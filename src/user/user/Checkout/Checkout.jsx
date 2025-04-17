@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiCreditCard, FiSmartphone, FiDollarSign, FiShoppingBag, FiArrowLeft } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart as clearCartAction } from '../../../redux/cartSlice';
 
 const colors = {
   primary: '#2D3B2D',
@@ -20,6 +22,7 @@ const mockUser = {
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = mockUser;
   
   const [cartItems, setCartItems] = useState(() => {
@@ -138,6 +141,7 @@ const Checkout = () => {
 
   const clearCart = () => {
     setCartItems([]);
+    dispatch(clearCartAction());
     localStorage.setItem('cart', JSON.stringify([]));
   };
 

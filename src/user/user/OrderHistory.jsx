@@ -326,6 +326,11 @@ const OrderHistory = () => {
     );
   };
 
+  // Handle tab switching
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
       <div className="container mx-auto px-4 py-6">
@@ -348,16 +353,22 @@ const OrderHistory = () => {
         {/* Tabs */}
         <div className="flex border-b mb-6 overflow-x-auto" style={{ borderColor: colors.accent }}>
           <button
-            className={`px-4 py-2 font-medium ${activeTab === 'orders' ? 'border-b-2 text-tertiary' : 'text-gray-500'} cursor-pointer`}
-            style={{ borderColor: activeTab === 'orders' ? colors.tertiary : 'transparent' }}
-            onClick={() => setActiveTab('orders')}
+            className={`px-4 py-2 font-medium ${activeTab === 'orders' ? 'border-b-2' : 'text-gray-500'} cursor-pointer`}
+            style={{ 
+              borderColor: activeTab === 'orders' ? colors.tertiary : 'transparent',
+              color: activeTab === 'orders' ? colors.tertiary : null 
+            }}
+            onClick={() => handleTabChange('orders')}
           >
             Product Orders
           </button>
           <button
-            className={`px-4 py-2 font-medium ${activeTab === 'services' ? 'border-b-2 text-tertiary' : 'text-gray-500'} cursor-pointer`}
-            style={{ borderColor: activeTab === 'services' ? colors.tertiary : 'transparent' }}
-            onClick={() => setActiveTab('services')}
+            className={`px-4 py-2 font-medium ${activeTab === 'services' ? 'border-b-2' : 'text-gray-500'} cursor-pointer`}
+            style={{ 
+              borderColor: activeTab === 'services' ? colors.tertiary : 'transparent',
+              color: activeTab === 'services' ? colors.tertiary : null 
+            }}
+            onClick={() => handleTabChange('services')}
           >
             Service Bookings
           </button>
@@ -368,7 +379,10 @@ const OrderHistory = () => {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2" style={{ borderColor: colors.tertiary }}></div>
           </div>
         ) : (
-          activeTab === 'orders' ? renderOrders() : renderServiceBookings()
+          <div>
+            {activeTab === 'orders' && renderOrders()}
+            {activeTab === 'services' && renderServiceBookings()}
+          </div>
         )}
       </div>
     </div>

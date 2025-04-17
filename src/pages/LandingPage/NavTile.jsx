@@ -116,7 +116,7 @@ const NavTile = () => {
             {services.map((service, index) => (
               <div 
                 key={index}
-                className="flex flex-col bg-[#f5f5f0] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group animate-staggered-fade"
+                className="flex flex-col bg-[#f5f5f0] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group animate-staggered-fade justify-between"
                 style={{ 
                   animationDelay: `${index * 0.3}s`,
                   opacity: 0 // Initial state for animation

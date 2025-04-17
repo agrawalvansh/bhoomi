@@ -41,7 +41,7 @@ const products = [
     discount: 9,
     category: 'indoor-plants',
     categories: ['indoor-plants', 'low-maintenance-plants', 'air-purifying-plants', 'low-light-plants'],
-    image: '/imgs/landingPage/Products/1.svg',
+    image: '/imgs/landingPage/Products/1.png',
     quantity: '1 plant',
     featured: 'Popular',
     features: [
@@ -73,7 +73,7 @@ const products = [
     discount: 22,
     category: 'indoor-plants',
     categories: ['indoor-plants', 'flowering-plants', 'air-purifying-plants', 'low-light-plants'],
-    image: '/imgs/landingPage/Products/2.svg',
+    image: '/imgs/landingPage/Products/2.png',
     quantity: '1 plant',
     features: [
       'Air purifying - removes ammonia, benzene, formaldehyde and xylene',
@@ -104,7 +104,7 @@ const products = [
     discount: 50,
     category: 'indoor-plants',
     categories: ['indoor-plants', 'air-purifying-plants'],
-    image: '/imgs/landingPage/Products/3.svg',
+    image: '/imgs/landingPage/Products/3.png',
     quantity: '1 plant',
     featured: 'Trending',
     features: [
@@ -136,7 +136,7 @@ const products = [
     discount: 34,
     category: 'indoor-plants',
     categories: ['indoor-plants', 'low-maintenance-plants', 'air-purifying-plants', 'low-light-plants'],
-    image: '/imgs/landingPage/Products/4.svg',
+    image: '/imgs/landingPage/Products/4.png',
     quantity: '1 plant',
     features: [
       'Extremely easy to grow - perfect for beginners',
@@ -167,7 +167,7 @@ const products = [
     discount: 33,
     category: 'flowering-plants',
     categories: ['flowering-plants'],
-    image: '/imgs/landingPage/Products/5.svg',
+    image: '/imgs/landingPage/Products/5.png',
     quantity: '1 plant',
     features: [
       'Vibrant flowers in shades of red, pink, orange, yellow or white',
@@ -198,7 +198,7 @@ const products = [
     discount: 29,
     category: 'flowering-plants',
     categories: ['flowering-plants', 'air-purifying-plants'],
-    image: '/imgs/landingPage/Products/6.svg',
+    image: '/imgs/landingPage/Products/6.png',
     quantity: '1 plant',
     featured: 'Popular',
     features: [
@@ -230,7 +230,7 @@ const products = [
     discount: 19,
     category: 'indoor-plants',
     categories: ['indoor-plants'],
-    image: '/imgs/landingPage/Products/7.svg',
+    image: '/imgs/landingPage/Products/7.png',
     quantity: '1 plant',
     featured: 'Luxury',
     features: [
@@ -262,7 +262,7 @@ const products = [
     discount: 37,
     category: 'low-maintenance-plants',
     categories: ['indoor-plants', 'low-maintenance-plants', 'low-light-plants'],
-    image: '/imgs/landingPage/Products/8.svg',
+    image: '/imgs/landingPage/Products/8.png',
     quantity: '1 plant',
     featured: 'Easy Care',
     features: [
@@ -294,7 +294,7 @@ const products = [
     discount: 30,
     category: 'cacti-and-succulents',
     categories: ['cacti-and-succulents', 'low-maintenance-plants'],
-    image: '/imgs/landingPage/Products/9.svg',
+    image: '/imgs/landingPage/Products/9.png',
     quantity: '3 plants',
     featured: 'Best Seller',
     features: [
@@ -326,7 +326,7 @@ const products = [
     discount: 20,
     category: 'herbs-and-edibles',
     categories: ['herbs-and-edibles'],
-    image: '/imgs/landingPage/Products/10.svg',
+    image: '/imgs/landingPage/Products/10.png',
     quantity: '1 plant',
     features: [
       'Fresh organic Italian Large Leaf variety',
@@ -357,7 +357,7 @@ const products = [
     discount: 20,
     category: 'cacti-and-succulents',
     categories: ['cacti-and-succulents', 'low-maintenance-plants', 'herbs-and-edibles'],
-    image: '/imgs/landingPage/Products/11.svg',
+    image: '/imgs/landingPage/Products/11.png',
     quantity: '1 plant',
     features: [
       'Natural remedy for minor burns, cuts, and skin irritations',
@@ -388,7 +388,7 @@ const products = [
     discount: 38,
     category: 'low-maintenance-plants',
     categories: ['low-maintenance-plants', 'air-purifying-plants'],
-    image: '/imgs/landingPage/Products/12.svg',
+    image: '/imgs/landingPage/Products/12.png',
     quantity: '3 plants',
     features: [
       'Grows without soil - display anywhere in your home',
@@ -419,7 +419,7 @@ const products = [
     discount: 25,
     category: 'herbs-and-edibles',
     categories: ['herbs-and-edibles', 'flowering-plants'],
-    image: '/imgs/landingPage/Products/13.svg',
+    image: '/imgs/landingPage/Products/13.png',
     quantity: '1 plant',
     features: [
       'Aromatic purple flower spikes with calming fragrance',
@@ -450,7 +450,7 @@ const products = [
     discount: 25,
     category: 'indoor-plants',
     categories: ['indoor-plants', 'air-purifying-plants'],
-    image: '/imgs/landingPage/Products/14.svg',
+    image: '/imgs/landingPage/Products/14.png',
     quantity: '1 plant',
     features: [
       'Stunning circular leaves with intricate medallion pattern',
@@ -481,7 +481,7 @@ const products = [
     discount: 29,
     category: 'plant-bundles',
     categories: ['plant-bundles', 'indoor-plants', 'low-maintenance-plants', 'air-purifying-plants'],
-    image: '/imgs/landingPage/Products/15.svg',
+    image: '/imgs/landingPage/Products/15.png',
     quantity: '4 plants',
     featured: 'Best Value',
     features: [
@@ -513,7 +513,7 @@ const products = [
     discount: 30,
     category: 'cacti-and-succulents',
     categories: ['cacti-and-succulents', 'low-maintenance-plants'],
-    image: '/imgs/landingPage/Products/16.svg',
+    image: '/imgs/landingPage/Products/16.png',
     quantity: '1 plant',
     features: [
       'Distinctive bead-like succulent leaves',
@@ -544,7 +544,7 @@ const products = [
     discount: 25,
     category: 'herbs-and-edibles',
     categories: ['herbs-and-edibles'],
-    image: '/imgs/landingPage/Products/17.svg',
+    image: '/imgs/landingPage/Products/17.png',
     quantity: '3 plants',
     featured: 'Popular',
     features: [
@@ -576,7 +576,7 @@ const products = [
     discount: 31,
     category: 'plant-bundles',
     categories: ['plant-bundles', 'indoor-plants', 'low-maintenance-plants', 'air-purifying-plants', 'low-light-plants'],
-    image: '/imgs/landingPage/Products/18.svg',
+    image: '/imgs/landingPage/Products/18.png',
     quantity: '4 plants',
     features: [
       'Specifically selected to thrive in office environments',
