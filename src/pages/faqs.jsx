@@ -5,14 +5,14 @@ import { FiPlus, FiMinus, FiHelpCircle } from 'react-icons/fi';
 const FAQPage = () => {
   const colors = {
     primary: '#2d5a27',
-    secondary: '#D4B982', 
+    secondary: '#D4B982',
     tertiary: '#2d5a27',
     background: '#f5f5f0',
     accent: '#A8C69F',
     deep: '#1B4D3E',
-    highlight: '#F3E5AB',
-    warm: '#E6BAA3'
+    highlight: '#F3E5AB'
   };
+
 
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -118,7 +118,7 @@ const FAQPage = () => {
                 initial={false}
               >
                 <button
-                  className="w-full p-3 sm:p-4 text-left flex items-center justify-between text-sm sm:text-base"
+                  className="w-full p-3 sm:p-4 text-left flex items-center justify-between text-sm sm:text-base cursor-pointer"
                   onClick={() => setOpenIndex(isOpen ? null : `${categoryIndex}-${index}`)}
                   style={{ color: colors.deep }}
                 >
@@ -195,7 +195,7 @@ const FAQPage = () => {
               Our customer support team is available 7 days a week
             </p>
             <button 
-              className="px-4 py-2 sm:px-6 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-colors"
+              className="px-4 py-2 sm:px-6 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-colors cursor-pointer"
               style={{ 
                 backgroundColor: colors.deep,
                 color: 'white'

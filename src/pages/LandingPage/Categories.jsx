@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
-import { categories } from '../../user/user/plantShopData';
+import { categories } from '../../user/plantShopData';
 
 const Categories = () => {
   const colors = {

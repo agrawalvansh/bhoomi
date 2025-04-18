@@ -36,9 +36,7 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulated form submission
     setSubmitStatus('success');
-    // Reset form
     setTimeout(() => {
       setFormData({
         name: '',
@@ -238,7 +236,7 @@ const ContactPage = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 text-sm sm:text-base text-white transition-colors hover:bg-deep"
+                  className="w-full py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 text-sm sm:text-base text-white transition-colors hover:bg-deep cursor-pointer"
                   style={{ backgroundColor: colors.tertiary }}
                 >
                   <FiSend />

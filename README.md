@@ -1,92 +1,78 @@
-# Bhoomi Admin Interface
+# Bhoomi Website
 
-A modern, responsive admin dashboard for the Bhoomi project, built with React and cutting-edge web technologies.
+To see the website live, visit [Bhoomi](https://the-bhoomi.vercel.app/).
 
-## 🚀 Tech Stack
+## Overview
+Bhoomi is a modern web application built with React, designed to provide a seamless user experience with a clean, responsive interface. The project focuses on delivering an intuitive platform that combines beautiful design with powerful functionality.
 
-- **Frontend Framework:** React 18
-- **Build Tool:** Vite
-- **Styling:**
-  - TailwindCSS
-  - Shadcn UI
-  - Class Variance Authority
-  - Tailwind Merge
-  - Tailwind Animate
-- **State Management:**
-  - Redux Toolkit
-  - React Redux
-- **Authentication & Database:**
-  - Firebase
-  - React Firebase Hooks
-- **Routing:**
-  - React Router DOM v7
-- **UI/UX:**
-  - Framer Motion (animations)
-  - React Icons
-  - Lucide React (icons)
-  - React Toastify (notifications)
-- **Utilities:**
-  - date-fns (date manipulation)
-  - clsx (conditional classes)
+## Features
+- **Responsive Design**: Fully responsive interface that works across desktop, tablet, and mobile devices
+- **Interactive UI**: Modern UI components built with Radix UI and styled with Tailwind CSS
+- **State Management**: Efficient state management using Redux Toolkit
+- **Beautiful Animations**: Smooth transitions and animations powered by Framer Motion
 
-## ✨ Features
+## Technologies Used
+- **Frontend**: React.js, React Router
+- **UI Components**: Radix UI, Shadcn UI
+- **Styling**: Tailwind CSS, Styled Components
+- **State Management**: Redux Toolkit, React Redux
+- **Deployment**: Vercel Hosting
+- **Build Tool**: Vite
+- **Icons**: Lucide React, React Icons
 
-- **Modern Dashboard Interface:** Clean and intuitive admin interface with a responsive design
-- **Authentication:** Secure user authentication powered by Firebase
-- **Real-time Updates:** Live data synchronization using Firebase Realtime Database
-- **Advanced State Management:** Centralized state management with Redux Toolkit
-- **Beautiful Animations:** Smooth transitions and animations using Framer Motion
-- **Multiple Admin Modules:**
-  - User Management
-  - Product Management
-  - Order Management
-  - Team Management
-  - Messaging System
-  - Analytics Dashboard
-  - Settings Management
-  - Supplier Management
+## Getting Started
 
-## 🛠️ Installation
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
 
-1. Clone the repository:
-   ```bash
-   git clone [repository-url]
-   cd bhoomiAdminInterface
+### Installation
+1. Clone the repository
+   ```
+   git clone https://github.com/agrawalvansh/bhoomi-website.git
+   cd bhoomi-website
    ```
 
-2. Install dependencies:
-   ```bash
+2. Install dependencies
+   ```
    npm install
    ```
-
-3. Set up environment variables:
-   Create a `.env` file in the root directory and add your Firebase configuration:
-   ```env
-   VITE_FIREBASE_API_KEY=your_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-   VITE_FIREBASE_APP_ID=your_app_id
+   or
+   ```
+   yarn install
    ```
 
-4. Start the development server:
-   ```bash
+3. Start the development server
+   ```
    npm run dev
    ```
+   or
+   ```
+   yarn dev
+   ```
 
-## 📦 Build
+4. Build for production
+   ```
+   npm run build
+   ```
+   or
+   ```
+   yarn build
+   ```
 
-To build for production:
-```bash
-npm run build
-```
+## Project Structure
+- `/src`: Source code
+  - `/components`: Reusable UI components
+  - `/pages`: Page components
+  - `/redux`: Redux store, slices, and actions
+  - `/user`: User-related functionality
+- `/public`: Static assets
 
-To preview the production build:
-```bash
-npm run preview
-```
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📝 License
-
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+For any inquiries, please reach out to agrawalvanshn@gmail.com.

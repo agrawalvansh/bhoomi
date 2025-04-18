@@ -11,7 +11,6 @@ const AboutPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   
-  // Tracking scroll for sticky navbar effects
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);

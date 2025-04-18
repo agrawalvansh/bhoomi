@@ -215,7 +215,7 @@ const SignupPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 p-1 z-10"
+                  className="absolute right-3 p-1 z-10 cursor-pointer"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                   style={{ color: colors.primary }}
                 >
@@ -261,7 +261,7 @@ const SignupPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 p-1 z-10"
+                  className="absolute right-3 p-1 z-10 cursor-pointer"
                   aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                   style={{ color: colors.primary }}
                 >
@@ -318,11 +318,9 @@ const SignupPage = () => {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
               style={{
-                backgroundColor: isLoading
-                  ? `${colors.tertiary}70`
-                  : colors.tertiary,
+                backgroundColor: isLoading ? `${colors.tertiary}70` : colors.tertiary,
                 color: colors.background,
                 cursor: isLoading ? 'not-allowed' : 'pointer'
               }}

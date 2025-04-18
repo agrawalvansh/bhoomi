@@ -26,7 +26,6 @@ const Pages = () => {
 
 export default Pages;
 
-// Export individual components for direct access if needed
 export {
   LandingPage,
   LoginPage,

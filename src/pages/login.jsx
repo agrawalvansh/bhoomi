@@ -10,46 +10,26 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
 
-  // User roles and their corresponding home pages
-  const userRoles = {
-    '':'/',
-    'Admin': '/admin/home',
-    'Product Manager': '/product/stock-overview',
-    'Visitor': '/visitor/home',
-    'Gardener': '/gardener/home',
-    'Plant Expert': '/plant/home',
-    'Designer': '/designer/home'
-  };
-
-  // Brand color palette
   const colors = {
     primary: '#2d5a27',
-    secondary: '#D4B982', 
+    secondary: '#D4B982',
     tertiary: '#2d5a27',
     background: '#f5f5f0',
     accent: '#A8C69F',
     deep: '#1B4D3E',
-    highlight: '#F3E5AB',
-    warm: '#E6BAA3'
+    highlight: '#F3E5AB'
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // if (!selectedRole) {
-    //   setError('Please select a user role');
-    //   return;
-    // }
     
     setError('');
     setIsLoading(true);
 
     try {
-      // Simulated API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      // Navigate to the corresponding home page
-      navigate(userRoles[selectedRole]);
+      navigate('/');
     } catch {
       setError('Invalid credentials. Please try again.');
     } finally {
@@ -58,15 +38,9 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    if (!selectedRole) {
-      setError('Please select a user role');
-      return;
-    }
-    // Implement Google login logic here
     console.log('Google Login initiated');
   };
 
-  // Google icon component
   const GoogleIcon = () => (
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
@@ -146,36 +120,6 @@ const LoginPage = () => {
         )}
 
         <form onSubmit={handleLogin} className="space-y-6">
-          {/* <div className="space-y-1">
-            <label 
-              htmlFor="userRole" 
-              className="block text-sm font-medium"
-              style={{ color: colors.primary }}
-            >
-              Select User Role
-            </label>
-            <select
-              id="userRole"
-              value={selectedRole}
-              onChange={(e) => setSelectedRole(e.target.value)}
-              required
-              className="w-full px-4 py-3 rounded-lg transition-all"
-              style={{
-                border: `2px solid ${colors.accent}`,
-                backgroundColor: colors.background,
-                color: colors.primary,
-                outline: 'none'
-              }}
-            >
-              <option value="">Select a role</option>
-              {Object.keys(userRoles).map((role) => (
-                <option key={role} value={role}>
-                  {role}
-                </option>
-              ))}
-            </select>
-          </div> */}
-
           <div className="space-y-1">
             <label
               htmlFor="email"
@@ -241,7 +185,7 @@ const LoginPage = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 style={{ color: colors.primary }}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
@@ -259,7 +203,7 @@ const LoginPage = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all"
+            className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
             style={{ 
               backgroundColor: isLoading ? `${colors.tertiary}90` : colors.tertiary,
               color: colors.background,
@@ -297,11 +241,11 @@ const LoginPage = () => {
           </div>
 
           <motion.button
-            onClick={() => navigate('/')}
+            onClick={handleGoogleLogin}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="button"
-            className="w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+            className="w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
             style={{
               border: `2px solid ${colors.accent}`,
               backgroundColor: colors.background,

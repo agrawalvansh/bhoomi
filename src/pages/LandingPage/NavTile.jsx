@@ -91,7 +91,7 @@ const NavTile = () => {
               placeholder="Enter location" 
               className="bg-transparent outline-none flex-1 text-gray-700 placeholder-gray-500 text-sm"
             />
-            <button className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-300">
+            <button className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-300 cursor-pointer" onClick={() => navigate('/user/service')}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M6 9L12 15L18 9" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -116,10 +116,11 @@ const NavTile = () => {
             {services.map((service, index) => (
               <div 
                 key={index}
-                className="flex flex-col bg-[#f5f5f0] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group animate-staggered-fade justify-between"
+                onClick={() => navigate('/user/service')}
+                className="flex flex-col bg-[#f5f5f0] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group animate-staggered-fade justify-between cursor-pointer"
                 style={{ 
                   animationDelay: `${index * 0.3}s`,
-                  opacity: 0 // Initial state for animation
+                  opacity: 0
                 }}
               >
                 <div className="p-2 sm:p-4 hover:bg-gray-50 transition-colors duration-300">
@@ -148,7 +149,7 @@ const NavTile = () => {
                     src={service.image} 
                     alt={service.title} 
                     className="w-full h-20 sm:h-36 object-cover transition-transform duration-700 group-hover:scale-110 animate-image-fade"
-                    style={{ opacity: 0 }} // Initial state for image animation
+                    style={{ opacity: 0 }}
                   />
                 </div>
               </div>

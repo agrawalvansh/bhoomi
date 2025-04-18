@@ -4,12 +4,11 @@ import { FiHome } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
 const Default = () => {
-  // Define colors object
   const colors = {
-    primary: '#2D3B2D',
+    primary: '#2d5a27',
     secondary: '#D4B982',
-    tertiary: '#4A6741',
-    background: '#F9F6F0',
+    tertiary: '#2d5a27',
+    background: '#f5f5f0',
     accent: '#A8C69F',
     deep: '#1B4D3E',
     highlight: '#F3E5AB'
