@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../firebase/config';
 
 export const searchProducts = createAsyncThunk(
   'search/searchProducts',
@@ -8,30 +6,19 @@ export const searchProducts = createAsyncThunk(
     if (searchQuery.length < 2) return [];
     
     try {
-      const productsRef = collection(db, 'products');
-      const searchTerms = searchQuery.toLowerCase().split(' ');
+      // Mock implementation replacing Firebase functionality
+      // In a real application, you would replace this with an API call to your backend
+      // or implement client-side search logic
       
-      // Create OR queries for each search term
-      const queries = searchTerms.map(term => 
-        query(productsRef, where('keywords', 'array-contains', term))
-      );
+      // Simulating API call delay
+      await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Execute all queries
-      const querySnapshots = await Promise.all(
-        queries.map(q => getDocs(q))
-      );
+      // This is a placeholder for your actual search implementation
+      // You should replace this with your own search logic
+      console.log(`Searching for: ${searchQuery}`);
       
-      // Combine and deduplicate results
-      const results = new Map();
-      querySnapshots.forEach(snapshot => {
-        snapshot.docs.forEach(doc => {
-          if (!results.has(doc.id)) {
-            results.set(doc.id, { id: doc.id, ...doc.data() });
-          }
-        });
-      });
-      
-      return Array.from(results.values());
+      // Return empty array for now - replace with actual implementation
+      return [];
     } catch (error) {
       throw error;
     }
