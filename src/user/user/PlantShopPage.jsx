@@ -55,7 +55,7 @@ const CartButton = ({ product }) => {
       {quantity === 0 ? (
         <motion.button
           whileTap={{ scale: 0.95 }}
-          className="w-full py-2 text-center rounded flex items-center justify-center transition-all"
+          className="w-full py-2 text-center rounded flex items-center justify-center transition-all cursor-pointer"
           style={{ 
             backgroundColor: '#f5f5f0',
             color: '#2d5a27'
@@ -76,7 +76,7 @@ const CartButton = ({ product }) => {
           }}>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            className="p-3 flex-1 flex items-center justify-center hover:bg-[#1B4D3E] transition-colors"
+            className="p-3 flex-1 flex items-center justify-center hover:bg-[#1B4D3E] transition-colors cursor-pointer"
             onClick={() => handleCartAction('decrease')}
             aria-label="Decrease quantity"
           >
@@ -91,7 +91,7 @@ const CartButton = ({ product }) => {
           
           <motion.button
             whileTap={{ scale: 0.9 }}
-            className="p-3 flex-1 flex items-center justify-center hover:bg-[#1B4D3E] transition-colors"
+            className="p-3 flex-1 flex items-center justify-center hover:bg-[#1B4D3E] transition-colors cursor-pointer"
             onClick={() => handleCartAction('increase')}
             aria-label="Increase quantity"
           >
@@ -295,7 +295,7 @@ const PlantShopPage = () => {
             {/* Enhanced Cart Indicator with micro-interactions */}
             <div className="ml-auto flex items-center gap-2 md:gap-4">
               <button 
-                className="p-1 md:p-2 rounded-full hover:bg-gray-100 transition-colors"
+                className="p-1 md:p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
                 style={{ color: colors.primary }}
                 aria-label="Search"
               >
@@ -305,7 +305,7 @@ const PlantShopPage = () => {
               </button>
               
               <button 
-                className="p-1 md:p-2 rounded-full hover:bg-gray-100 transition-colors relative"
+                className="p-1 md:p-2 rounded-full hover:bg-gray-100 transition-colors relative cursor-pointer"
                 style={{ color: colors.primary }}
                 onClick={() => navigate('/user/cart')}
                 aria-label={`View cart containing ${totalCartItems} items`}
@@ -436,7 +436,7 @@ const PlantShopPage = () => {
                         {product.options ? (
                           <button 
                             onClick={() => navigate(`/user/product/${product.id}`)}
-                            className="w-full py-2 text-center rounded flex items-center justify-center transition-colors hover:bg-[#1B4D3E]"
+                            className="w-full py-2 text-center rounded flex items-center justify-center transition-colors hover:bg-[#1B4D3E] cursor-pointer"
                             style={{ 
                               backgroundColor: '#f5f5f0',
                               color: '#2d5a27'

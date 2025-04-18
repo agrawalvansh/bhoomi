@@ -20,28 +20,28 @@ const FeaturedProducts = () => {
       description: "Add tropical vibes to your space with this popular houseplant",
       bgColor: colors.background,
       iconBgColor: colors.accent,
-      image: "/imgs/landingPage/Products/3.svg" // Image placeholder for Monstera at 175x175px
+      image: "/imgs/landingPage/Products/3.png" // Image placeholder for Monstera at 175x175px
     },
     {
       name: "Snake Plant",
       description: "Low-maintenance perfection for beginners",
       bgColor: colors.highlight,
       iconBgColor: colors.secondary,
-      image: "/imgs/landingPage/Products/1.svg" // Image placeholder for Snake Plant at 175x175px
+      image: "/imgs/landingPage/Products/1.png" // Image placeholder for Snake Plant at 175x175px
     },
     {
       name: "Peace Lily",
       description: "Natural air purification for indoor spaces",
       bgColor: colors.warm,
       iconBgColor: colors.tertiary,
-      image: "/imgs/landingPage/Products/2.svg" // Image placeholder for Peace Lily at 175x175px
+      image: "/imgs/landingPage/Products/2.png" // Image placeholder for Peace Lily at 175x175px
     },
     {
       name: "Fiddle Leaf",
       description: "Dramatic foliage for statement interiors",
       bgColor: colors.background,
       iconBgColor: colors.deep,
-      image: "/imgs/landingPage/Products/7.svg" // Image placeholder for Fiddle Leaf at 175x175px
+      image: "/imgs/landingPage/Products/7.png" // Image placeholder for Fiddle Leaf at 175x175px
     }
   ];
 

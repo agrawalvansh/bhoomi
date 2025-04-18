@@ -26,7 +26,7 @@ export const AddToCartButton = ({ product }) => {
     <>
       <button 
         onClick={handleAddToCart}
-        className="w-full py-2 text-center rounded"
+        className="w-full py-2 text-center rounded cursor-pointer "
         style={{ 
           backgroundColor: isInCart ? '#E6F2EF' : '#21785E',
           color: isInCart ? '#21785E' : '#FFFFFF'
@@ -62,7 +62,7 @@ export const AddToCartDetailButton = ({ product, quantity = 1 }) => {
     <>
       <button
         onClick={handleAddToCart}
-        className="flex-1 flex items-center justify-center px-6 py-3 rounded-lg"
+        className="flex-1 flex items-center justify-center px-6 py-3 rounded-lg cursor-pointer"
         style={{
           backgroundColor: isInCart ? '#E6F2EF' : '#21785E',
           color: isInCart ? '#21785E' : '#FFFFFF'

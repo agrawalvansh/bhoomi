@@ -350,17 +350,19 @@ const OrderSummaryContent = ({ cartItems, cartTotal }) => (
   <div>
     <div className="space-y-3 sm:space-y-4">
       {cartItems.map((item) => (
-        <div key={item.id} className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 bg-[#F9F6F0] rounded-lg sm:rounded-xl">
+        <div key={item.id} className="flex flex-row items-center gap-3 p-3 sm:p-4 rounded-lg bg-[#F9F6F0]">
           <img
             src={item.image}
             alt={item.name}
-            className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-[#A8C69F]"
+            className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-[#A8C69F] flex-shrink-0"
           />
-          <div className="flex-1">
-            <h3 className="font-semibold text-[#2D3B2D] text-sm sm:text-base">{item.name}</h3>
-            <p className="text-[#4A6741] text-xs sm:text-sm">Quantity: {item.quantity}</p>
-            <p className="text-[#1B4D3E] font-bold text-sm sm:text-base">₹{(item.price * item.quantity).toFixed(2)}</p>
+          <div className="flex-1 min-w-0">
+            <h4 className="font-medium text-[#2D3B2D] text-sm sm:text-base truncate">{item.name}</h4>
+            <p className="text-xs sm:text-sm text-[#4A6741]">Quantity: {item.quantity}</p>
           </div>
+          <p className="font-medium text-[#184D3E] text-sm sm:text-base whitespace-nowrap">
+            ₹{(item.price * item.quantity).toFixed(2)}
+          </p>
         </div>
       ))}
     </div>

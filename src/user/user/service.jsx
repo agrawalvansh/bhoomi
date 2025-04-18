@@ -65,13 +65,13 @@ const ServiceBooking = () => {
       id: 'gardening',
       name: 'Gardening Service',
       description: 'Regular maintenance and care for your garden',
-      icon: '🌿'
+      image: '/imgs/landingPage/Garden-Maintenance.png'
     },
     {
       id: 'setup',
       name: 'Garden Setup',
       description: 'Professional garden design and installation',
-      icon: '🏡'
+      image: '/imgs/landingPage/Garden-Setup.png'
     }
   ];
 
@@ -330,7 +330,7 @@ const ServiceBooking = () => {
             onClick={() => handleServiceTypeSelect(type.id)}
           >
             <div className="flex items-center gap-3 md:gap-4">
-              <span className="text-3xl md:text-4xl">{type.icon}</span>
+              <img src={type.image} alt={type.name} className="w-10 h-10 md:w-12 md:h-12" />
               <div>
                 <h3 className="text-lg md:text-xl font-bold">{type.name}</h3>
                 <p className="text-xs md:text-sm mt-1 md:mt-2 opacity-90">{type.description}</p>

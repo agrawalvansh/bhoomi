@@ -38,7 +38,7 @@ const Cart = () => {
         <div className="flex items-center mb-6">
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center mr-4"
+            className="flex items-center mr-4 cursor-pointer"
             style={{ color: colors.primary }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -60,7 +60,7 @@ const Cart = () => {
             <h2 className="text-lg mb-4" style={{ color: colors.primary }}>Your cart is empty</h2>
             <button 
               onClick={() => navigate('/user/shop/indoor-plants')}
-              className="px-6 py-2 rounded"
+              className="px-6 py-2 rounded cursor-pointer"
               style={{ backgroundColor: colors.primary, color: colors.background }}
             >
               Continue Shopping
@@ -99,7 +99,7 @@ const Cart = () => {
                       <div className="flex items-center space-x-2">
                         <button 
                           onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                          className="w-8 h-8 flex items-center justify-center rounded-full"
+                          className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer"
                           style={{ backgroundColor: `${colors.tertiary}20`, color: colors.tertiary }}
                         >
                           -
@@ -107,7 +107,7 @@ const Cart = () => {
                         <span className="font-medium">{item.quantity}</span>
                         <button 
                           onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                          className="w-8 h-8 flex items-center justify-center rounded-full"
+                          className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer"
                           style={{ backgroundColor: `${colors.tertiary}20`, color: colors.tertiary }}
                         >
                           +
@@ -120,7 +120,7 @@ const Cart = () => {
                         </span>
                         <button 
                           onClick={() => dispatch(removeFromCart(item.id))}
-                          className="text-gray-400 hover:text-red-500"
+                          className="text-gray-400 hover:text-red-500 cursor-pointer"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -162,7 +162,7 @@ const Cart = () => {
                 
                 <button 
                   onClick={() => navigate('/user/checkout')}
-                  className="w-full py-3 text-center rounded font-medium"
+                  className="w-full py-3 text-center rounded font-medium cursor-pointer"
                   style={{ backgroundColor: colors.primary, color: colors.background }}
                 >
                   Proceed to Checkout

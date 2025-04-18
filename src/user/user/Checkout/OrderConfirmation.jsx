@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiCheck, FiPackage, FiTruck, FiClock } from 'react-icons/fi';
+import { getProductsByCategory } from '../plantShopData';
 
 const OrderConfirmation = () => {
   const { orderId } = useParams();
@@ -8,6 +9,28 @@ const OrderConfirmation = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    // Load all products from plantShopData to match with order items
+    const loadProducts = () => {
+      try {
+        // Get products from all categories
+        const indoorPlants = getProductsByCategory('indoor-plants') || [];
+        const outdoorPlants = getProductsByCategory('outdoor-plants') || [];
+        const plantCare = getProductsByCategory('plant-care') || [];
+        const pots = getProductsByCategory('pots') || [];
+        
+        // Combine all products
+        const products = [...indoorPlants, ...outdoorPlants, ...plantCare, ...pots];
+        setAllProducts(products);
+      } catch (err) {
+        console.error('Error loading product data:', err);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   useEffect(() => {
     const fetchOrder = () => {
@@ -22,6 +45,24 @@ const OrderConfirmation = () => {
         if (foundOrder) {
           // Convert ISO string back to Date object for display
           foundOrder.createdAt = new Date(foundOrder.createdAt);
+          
+          // Match order items with product data to get correct images
+          if (foundOrder.items && foundOrder.items.length > 0 && allProducts.length > 0) {
+            foundOrder.items = foundOrder.items.map(item => {
+              // Find the matching product from our data source
+              const matchedProduct = allProducts.find(p => p.id === item.id || p.name === item.name);
+              
+              // If we found a match, use its image
+              if (matchedProduct) {
+                return {
+                  ...item,
+                  image: matchedProduct.image || item.image // Use the data source image or fallback to the stored one
+                };
+              }
+              return item;
+            });
+          }
+          
           setOrder(foundOrder);
         } else {
           setError('Order not found');
@@ -34,8 +75,11 @@ const OrderConfirmation = () => {
       }
     };
 
-    fetchOrder();
-  }, [orderId]);
+    // Only fetch the order if we have products loaded or if it's a service order
+    if (allProducts.length > 0 || (order && order.service)) {
+      fetchOrder();
+    }
+  }, [orderId, allProducts]);
 
   if (loading) {
     return (
@@ -55,7 +99,7 @@ const OrderConfirmation = () => {
           <h2 className="text-xl sm:text-2xl font-semibold text-[#2D3B2D]">Error</h2>
           <p className="mt-2 text-[#184D3E]">{error}</p>
           <button
-            onClick={() => navigate('/home/shop')}
+            onClick={() => navigate('/user/shop/indoor-plants')}
             className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2D3B2D] hover:bg-[#4A6741] transition-colors duration-200 cursor-pointer"
           >
             Return to Shop
@@ -123,7 +167,7 @@ const OrderConfirmation = () => {
             <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4 text-[#2D3B2D]">Items</h3>
             <div className="space-y-3 sm:space-y-4">
               {order.service ? (
-                // Updated service booking display to match product item display style
+                // Service booking display
                 <div className="flex flex-row items-center gap-3 p-3 sm:p-4 rounded-lg bg-[#F9F6F0]">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 flex items-center justify-center rounded-lg border border-[#D4B982] bg-[#ABC69F]">
                     <FiClock className="w-8 h-8 sm:w-10 sm:h-10 text-[#2D3B2D]" />
@@ -138,13 +182,18 @@ const OrderConfirmation = () => {
                   </p>
                 </div>
               ) : order.items && order.items.length > 0 ? (
-                // Display product order items - improved mobile layout
+                // Product order items with corrected images from plant shop data
                 order.items.map((item) => (
                   <div key={item.id} className="flex flex-row items-center gap-3 p-3 sm:p-4 rounded-lg bg-[#F9F6F0]">
                     <img
                       src={item.image}
                       alt={item.name}
                       className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-[#D4B982] flex-shrink-0"
+                      onError={(e) => {
+                        // Fallback image if the one from data source fails
+                        e.target.onerror = null; 
+                        e.target.src = '/assets/images/placeholder-plant.jpg';
+                      }}
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-[#2D3B2D] text-sm sm:text-base truncate">{item.name}</h4>
@@ -232,7 +281,7 @@ const OrderConfirmation = () => {
 
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
           <button
-            onClick={() => navigate(order.service ? '/' : '/')}
+            onClick={() => navigate(order.service ? '/' : '/user/shop/indoor-plants')}
             className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#2D3B2D] hover:bg-[#4A6741] transition-colors duration-200 w-full sm:w-auto cursor-pointer"
           >
             {order.service ? 'Book Another Service' : 'Continue Shopping'}
