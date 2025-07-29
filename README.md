@@ -34,8 +34,8 @@ Bhoomi is your one-stop destination for all gardening needs. We provide professi
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/agrawalvansh/bhoomi-website.git
-   cd bhoomi-website
+   git clone https://github.com/agrawalvansh/bhoomi.git
+   cd bhoomi
    ```
 
 2. Install dependencies
